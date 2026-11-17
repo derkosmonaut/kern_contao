@@ -110,6 +110,24 @@ Composer versucht, das `vcs`-Repository per SSH zu klonen, hat aber keinen GitHu
 
 Core-Komponenten (`component/_*.html.twig`) werden per `{% use %}` als Traits eingebunden; ein Template mit `{% extends %}` ist laut Twig kein gültiges Trait. Deshalb verwenden die Komponenten-Overrides in diesem Bundle `{% use %}` statt `{% extends %}` (Horizontal Reuse: eigene Blöcke gewinnen gegenüber den importierten Core-Blöcken). Die `content_element/*.html.twig`-Overrides werden dagegen vom Fragment-Controller gerendert und dürfen weiterhin `{% extends '@Contao/...' %}` nutzen.
 
+### `404` auf `/bundles/kerncontaobundle/...` (KERN-CSS/Fonts werden nicht geladen)
+
+Die `<link>`-Tags im `<head>` kommen aus `$GLOBALS['TL_CSS']` und erscheinen immer – die Dateien selbst liegen erst nach `assets:install` unter `public/bundles/kerncontaobundle/`. Prüfung und Fix auf dem Server:
+
+```bash
+ls -la public/bundles/ | grep kern
+
+vendor/bin/contao-console assets:install public --symlink --relative   # Symlink-Modus
+# falls der Hoster keine Symlinks erlaubt ("symlink method is unavailable"):
+vendor/bin/contao-console assets:install public --relative               # Kopier-Modus
+vendor/bin/contao-console contao:symlinks public
+
+curl -I https://kern.bbsmedien.de/bundles/kerncontaobundle/kern/kern.min.css   # erwartet: HTTP 200
+curl -I https://kern.bbsmedien.de/bundles/kerncontaobundle/kern/fonts/fira-sans/FiraSans-Regular.woff2
+```
+
+Voraussetzung: Webserver-Docroot ist `public/` (Contao-5-Standard). Danach Browser-Cache leeren (Hard Reload), da die 404s evtl. gecacht sind. Die Schriften (`fira-sans.css`) referenzieren die WOFF2-Dateien relativ (`./fira-sans/*.woff2`) – das Verzeichnis `public/bundles/kerncontaobundle/kern/fonts/fira-sans/` muss mit installiert sein.
+
 ## Welche Templates auf KERN umgestellt werden
 
 | Contao-Inhaltselement / Komponente | KERN-Markup |
