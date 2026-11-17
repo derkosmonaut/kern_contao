@@ -106,6 +106,10 @@ Composer versucht, das `vcs`-Repository per SSH zu klonen, hat aber keinen GitHu
    }
    ```
 
+### `Template "@Contao_KernContaoBundle/component/_x.html.twig" cannot be used as a trait ...`
+
+Core-Komponenten (`component/_*.html.twig`) werden per `{% use %}` als Traits eingebunden; ein Template mit `{% extends %}` ist laut Twig kein gültiges Trait. Deshalb verwenden die Komponenten-Overrides in diesem Bundle `{% use %}` statt `{% extends %}` (Horizontal Reuse: eigene Blöcke gewinnen gegenüber den importierten Core-Blöcken). Die `content_element/*.html.twig`-Overrides werden dagegen vom Fragment-Controller gerendert und dürfen weiterhin `{% extends '@Contao/...' %}` nutzen.
+
 ## Welche Templates auf KERN umgestellt werden
 
 | Contao-Inhaltselement / Komponente | KERN-Markup |
