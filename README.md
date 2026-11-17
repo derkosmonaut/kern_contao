@@ -1,5 +1,6 @@
 # kern_contao
 
+***ACHTUNG! Noch nicht für den Liveeinsatz verwenden!!!***
 KERN UX Integration für Contao CMS 5.
 
 Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/kern-ux/kern-ux-plain) (Version 2.8.2, npm: `@kern-ux/native`) in Contao ein und stellt die Inhalts-Twig-Templates von Contao auf KERN um.
