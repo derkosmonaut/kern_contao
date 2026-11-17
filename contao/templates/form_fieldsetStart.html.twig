@@ -1,0 +1,7 @@
+<fieldset class="kern-fieldset{% if this.class|default %} {{ this.class|default }}{% endif %}">
+
+    {% if this.label %}
+        <legend class="kern-label">{{ this.label|insert_tag_raw }}</legend>
+    {% endif %}
+
+    <div class="kern-fieldset__body">

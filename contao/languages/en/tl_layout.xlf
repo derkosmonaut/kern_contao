@@ -1,0 +1,18 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_layout.php" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="tl_layout.kern_legend.0">
+        <source>KERN UX</source>
+        <target>KERN UX</target>
+      </trans-unit>
+      <trans-unit id="tl_layout.kern_ux.0">
+        <source>Use KERN UX standard</source>
+        <target>Use KERN UX standard</target>
+      </trans-unit>
+      <trans-unit id="tl_layout.kern_ux.1">
+        <source>Loads the KERN UX stylesheets and scripts in the frontend of pages using this layout. The back end remains unchanged.</source>
+        <target>Loads the KERN UX stylesheets and scripts in the frontend of pages using this layout. The back end remains unchanged.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
