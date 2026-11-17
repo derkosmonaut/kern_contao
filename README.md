@@ -76,6 +76,36 @@ Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/ke
    vendor/bin/contao-console debug:contao-twig
    ```
 
+## Troubleshooting
+
+### `Failed to clone git@github.com:derkosmonaut/kern_contao.git ... Permission denied (publickey)`
+
+Composer versucht, das `vcs`-Repository per SSH zu klonen, hat aber keinen GitHub-Schlüssel. Ursachen und Lösungen:
+
+1. **Das GitHub-Repo ist privat** – anonyme Klone schlagen fehl. Repo auf GitHub public machen (Settings → Danger Zone → Change visibility) oder eine der Alternativen unten nutzen.
+2. **HTTPS statt SSH erzwingen** – in der `composer.json` des Projekts ergänzen:
+
+   ```json
+   "config": {
+       "github-protocols": ["https"]
+   }
+   ```
+
+   und auf dem Server zusätzlich: `git config --global url."https://github.com/".insteadOf "git@github.com:"`
+
+   Dann genügt `composer update derkosmonaut/kern-contao` (bei public Repo klappt der anonyme HTTPS-Clone).
+3. **Packagist** – sobald das Paket auf [packagist.org](https://packagist.org) registriert ist (dafür muss das Repo public sein), entfällt der `repositories`-Eintrag komplett: `"derkosmonaut/kern-contao": "dev-main"` bzw. nach einem Release-Tag `"^1.0"`. Packagist liefert dann ein dist-ZIP, es wird kein `git clone` ausgeführt.
+4. **Ohne GitHub-Zugriff beim Dependency-Resolve** (z. B. eingeschränkter Host): `path`-Repository auf dem Server nutzen – Repo nach `packages/kern-contao` klonen und in der `composer.json`:
+
+   ```json
+   "repositories": [
+       { "type": "path", "url": "packages/kern-contao", "options": { "symlink": false } }
+   ],
+   "require": {
+       "derkosmonaut/kern-contao": "*@dev"
+   }
+   ```
+
 ## Welche Templates auf KERN umgestellt werden
 
 | Contao-Inhaltselement / Komponente | KERN-Markup |
