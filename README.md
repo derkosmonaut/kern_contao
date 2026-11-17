@@ -13,6 +13,16 @@ Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/ke
 - Composer und SSH-Zugriff auf den Server (z. B. `kern.bbsmedien.de`)
 
 
+Meldet der Browser zusätzlich „blockiert wegen MIME-Typ-Konflikt (text/html) / X-Content-Type-Options: nosniff“, antwortet der Webserver mit einer HTML-Fehlerseite, weil die Datei fehlt – sobald die Datei existiert, wird sie als `text/css` ausgeliefert und der nosniff-Fehler verschwindet.
+
+**Ohne SSH:** `assets:install` legt `public/bundles/*` als Symlinks an (wird von `contao-setup` bzw. den post-install/update-Skripten mit `--symlink --relative` ausgeführt). Erlaubt der Hoster keine Symlinks (z. B. Apache `Options -FollowSymLinks`, „PHP symlink method is unavailable“), schlägt das fehl. Vorgehen dann:
+
+1. Per FTP prüfen: existiert `public/bundles/kerncontaobundle`? Ist es ein (ggf. defekter) Symlink? Funktionieren die Symlinks der Core-Bundles (eine Datei unter `public/bundles/contaocorebundle/...` im Browser testen)?
+2. Funktionieren Symlinks grundsätzlich, fehlt aber nur unser Eintrag: Contao Manager → Tab **Systemwartung** → **„Composer-Abhängigkeiten-Installer ausführen“** (führt die post-install-Skripte inkl. `assets:install` erneut aus) – oder das Paket im Manager erneut aktualisieren.
+3. Sind Symlinks hostseitig verboten: per FTP den defekten Symlink `public/bundles/kerncontaobundle` löschen und den Inhalt von `vendor/derkosmonaut/kern-contao/public/` als echte Dateien nach `public/bundles/kerncontaobundle/` hochladen (`kern/kern.min.css`, `kern/fonts/…`, `css/kern-contao.css`). Das muss nach jedem Bundle-Update wiederholt werden. Abhilfe schafft ggf. `Options +FollowSymLinks` in `public/.htaccess` (falls AllowOverride das erlaubt) – dann legt `contao-setup` die Symlinks künftig selbst an.
+
+Hinweis: Der Backend-Job „Symlinks neu erstellen“ (System → Systemwartung) legt nur files/assets/themes/system an, **nicht** `public/bundles/*` – für Bundle-Assets ist ausschließlich `assets:install` zuständig.
+
 ## Welche Templates auf KERN umgestellt werden
 
 | Contao-Inhaltselement / Komponente | KERN-Markup |
