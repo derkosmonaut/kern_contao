@@ -1,0 +1,13 @@
+{% extends '@Contao/component/_headline.html.twig' %}
+
+{% block headline_attributes %}
+    {% set kern_heading_class = {
+        h1: 'kern-heading-display',
+        h2: 'kern-heading-x-large',
+        h3: 'kern-heading-large',
+        h4: 'kern-heading-medium',
+        h5: 'kern-heading-small',
+        h6: 'kern-heading-small',
+    }[tag_name|default('h1')]|default('kern-heading-medium') %}
+    {{ attrs(headline.attributes|default).addClass(kern_heading_class) }}
+{% endblock %}

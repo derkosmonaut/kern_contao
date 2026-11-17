@@ -1,0 +1,5 @@
+{% extends '@Contao/component/_list.html.twig' %}
+
+{% block list_attributes %}
+    {{ attrs(list_attributes|default).addClass(['kern-list', tag_name == 'ol' ? 'kern-list--number' : 'kern-list--bullet']) }}
+{% endblock %}

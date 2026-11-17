@@ -1,0 +1,25 @@
+{
+    "name": "derkosmonaut/kern-contao",
+    "description": "KERN UX Design System (kern-ux-plain) Integration fuer Contao CMS 5: KERN-Assets und auf KERN angepasste Inhalts-Twig-Templates.",
+    "type": "contao-bundle",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": ">=8.2",
+        "contao/core-bundle": "^5.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Derkosmonaut\\KernContaoBundle\\": "src/"
+        }
+    },
+    "extra": {
+        "contao-manager-plugin": "Derkosmonaut\\KernContaoBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "contao/manager-plugin": true,
+            "php-http/discovery": true
+        }
+    }
+}

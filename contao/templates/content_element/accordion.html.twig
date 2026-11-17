@@ -1,0 +1,35 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+
+{% block content %}
+    {% for element in elements %}
+        {% block element %}
+            {% block element_header %}
+                {% set accordion_attributes = attrs()
+                    .addClass('kern-accordion')
+                    .mergeWith(accordion_attributes|default)
+                %}
+                <details{{ accordion_attributes }}{% if element.is_open %} open{% endif %}>
+                    {% set accordion_header_attributes = attrs()
+                        .addClass('kern-accordion__header')
+                        .mergeWith(accordion_header_attributes|default)
+                    %}
+                    <summary{{ accordion_header_attributes }}>
+                        <span class="kern-title">{{ element.header|insert_tag_raw }}</span>
+                    </summary>
+            {% endblock %}
+            {% block element_content %}
+                    {% set accordion_body_attributes = attrs()
+                        .addClass('kern-accordion__body')
+                        .mergeWith(accordion_body_attributes|default)
+                    %}
+                    <div{{ accordion_body_attributes }}>
+                        {{ content_element(element.reference) }}
+                    </div>
+                </details>
+            {% endblock %}
+        {% endblock %}
+    {% endfor %}
+{% endblock %}
+
+{% block style %}{% endblock %}
+{% block script %}{% endblock %}

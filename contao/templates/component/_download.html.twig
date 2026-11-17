@@ -1,0 +1,10 @@
+{% extends '@Contao/component/_download.html.twig' %}
+
+{% block download_link_attributes %}
+    {{ attrs(download_link_attributes|default).addClass('kern-link') }}
+{% endblock %}
+
+{% block download_link_inner %}
+    <span class="kern-icon kern-icon--download" aria-hidden="true"></span>
+    {{- text -}}
+{% endblock %}

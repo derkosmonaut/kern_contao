@@ -1,0 +1,82 @@
+{% extends '@Contao/component/_table.html.twig' %}
+
+{% block table_attributes %}
+    {{ attrs(table_attributes|default).addClass('kern-table') }}
+{% endblock %}
+
+{% block table_caption %}
+    <caption{{ attrs(table_caption_attributes|default).addClass('kern-title') }}>
+        {{- block('table_caption_inner') -}}
+    </caption>
+{% endblock %}
+
+{% block table_header %}
+    {% if header %}
+        <thead{{ attrs(table_header_attributes|default).addClass('kern-table__head') }}>
+            {{ block('table_header_inner') }}
+        </thead>
+    {% endif %}
+{% endblock %}
+
+{% block table_header_inner %}
+    <tr{{ attrs().addClass('kern-table__row') }}>
+        {% for cell in header %}
+            {% set table_header_cell_attributes = attrs(default_header_cell_attributes|default)
+                .set('data-sort-method', 'none', sorting and loop.first and use_row_headers)
+                .set('data-sort-default', '', sorting.column|default == loop.index0)
+                .addClass('kern-table__header')
+            %}
+            <th{{ table_header_cell_attributes }}>
+                {%- block table_header_cell_content %}
+                    {{- block('table_cell_content') -}}
+                {% endblock -%}
+            </th>
+        {% endfor %}
+    </tr>
+{% endblock %}
+
+{% block table_footer %}
+    {% if footer %}
+        <tfoot{{ attrs(table_footer_attributes|default).addClass('kern-table__footer') }}>
+            {{ block('table_footer_inner') }}
+        </tfoot>
+    {% endif %}
+{% endblock %}
+
+{% block table_footer_inner %}
+    <tr{{ attrs().addClass('kern-table__row') }}>
+        {% for cell in footer %}
+            <td{{ attrs().addClass('kern-table__cell') }}>
+                {%- block table_footer_cell_content %}
+                    {{- block('table_cell_content') -}}
+                {% endblock -%}
+            </td>
+        {% endfor %}
+    </tr>
+{% endblock %}
+
+{% block table_body %}
+    <tbody{{ attrs(table_body_attributes|default).addClass('kern-table__body') }}>
+        {{ block('table_body_inner') }}
+    </tbody>
+{% endblock %}
+
+{% block table_body_inner %}
+    {% for row in rows %}
+        <tr{{ attrs().addClass('kern-table__row') }}>
+            {% for cell in row %}
+                {% if loop.first and use_row_headers %}
+                    <th scope="row"{{ attrs().addClass('kern-table__header') }}>{{ block('table_cell_content') }}</th>
+                {% else %}
+                    <td{{ attrs().addClass('kern-table__cell') }}>
+                        {%- block table_body_cell_content %}
+                            {%- block table_cell_content %}
+                                {{- cell -}}
+                            {% endblock -%}
+                        {% endblock -%}
+                    </td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    {% endfor %}
+{% endblock %}
