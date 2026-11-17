@@ -2,8 +2,8 @@
 
 {% block text_link %}
     {{- text_before -}}
-    {% if kern_button_style|default %}
-        <a{{ attrs(link_attributes|default).addClass(['kern-btn', 'kern-btn--' ~ kern_button_style]) }}>
+    {% if data.kern_button_style|default %}
+        <a{{ attrs(link_attributes|default).addClass(['kern-btn', 'kern-btn--' ~ data.kern_button_style]) }}>
             <span class="kern-label">{{ link_text|insert_tag }}</span>
         </a>
     {% else %}
