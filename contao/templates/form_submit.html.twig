@@ -1,0 +1,31 @@
+{% set wrapperAttributes = attrs()
+    .addClass([this.prefix, this.class|default])
+    .mergeWith(wrapperAttributes|default)
+%}
+
+<div{{ wrapperAttributes }}>
+    {% block field %}
+        {% if this.src|default %}
+            <input{{ attrs()
+                .set('type', 'image')
+                .set('src', this.src)
+                .set('id', "ctrl_#{this.id}")
+                .addClass('submit')
+                .addClass(this.class|default)
+                .set('title', this.slabel)
+                .set('alt', this.slabel)
+                .mergeWith(getAttributes.invoke())
+            }}>
+        {% else %}
+            <button{{ attrs()
+                .set('type', 'submit')
+                .set('id', "ctrl_#{this.id}")
+                .addClass('submit')
+                .addClass('kern-btn')
+                .addClass('kern-btn--primary')
+                .addClass(this.class|default)
+                .mergeWith(getAttributes.invoke())
+            }}><span class="kern-label">{{ this.slabel }}</span></button>
+        {% endif %}
+    {% endblock %}
+</div>

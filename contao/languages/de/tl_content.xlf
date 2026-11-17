@@ -1,0 +1,54 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_content.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_content.kern_legend.0">
+        <source>KERN UX</source>
+        <target>KERN UX</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style.0">
+        <source>Alert style</source>
+        <target>Alert-Variante</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style.1">
+        <source>Wraps the text element in a KERN alert of the selected variant.</source>
+        <target>Umhüllt das Textelement mit einem KERN-Alert der gewählten Variante.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.info">
+        <source>Information</source>
+        <target>Information</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.success">
+        <source>Success</source>
+        <target>Erfolg</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.warning">
+        <source>Warning</source>
+        <target>Warnung</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.danger">
+        <source>Error</source>
+        <target>Fehler</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style.0">
+        <source>Button style</source>
+        <target>Button-Variante</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style.1">
+        <source>Renders the hyperlink as a KERN button of the selected variant instead of a text link.</source>
+        <target>Rendert den Hyperlink als KERN-Button der gewählten Variante statt als Textlink.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style_options.primary">
+        <source>Primary</source>
+        <target>Primär</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style_options.secondary">
+        <source>Secondary</source>
+        <target>Sekundär</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style_options.tertiary">
+        <source>Tertiary</source>
+        <target>Tertiär</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

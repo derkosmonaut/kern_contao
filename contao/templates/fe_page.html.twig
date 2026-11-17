@@ -1,0 +1,11 @@
+{% extends '@Contao/fe_page.html.twig' %}
+
+{% block head %}
+    {% if layout.kern_ux|default %}
+        <link rel="stylesheet" href="{{ asset('bundles/kerncontao/kern/fonts/fira-sans.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/kerncontao/kern/kern.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('bundles/kerncontao/css/kern-contao.css') }}">
+        <script src="{{ asset('bundles/kerncontao/kern/js/kern-kopfzeile.js') }}" defer></script>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}

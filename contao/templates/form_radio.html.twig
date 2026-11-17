@@ -1,0 +1,59 @@
+{% set wrapperAttributes = attrs()
+    .addClass([this.prefix, this.class|default])
+    .mergeWith(wrapperAttributes|default)
+%}
+
+<div{{ wrapperAttributes }}>
+    {% block field %}
+    <fieldset id="ctrl_{{ this.id }}" class="kern-fieldset{% if this.class|default %} {{ this.class|default }}{% endif %}"{% if this.help|default %} aria-describedby="help_ctrl_{{ this.id }}"{% endif %}>
+
+        {% if this.label %}
+            <legend class="kern-label">
+                {% if this.mandatory|default %}
+                    <span class="invisible">{{ this.mandatoryField }} </span>{{ this.label|insert_tag_raw }}<span class="mandatory">*</span>
+                {% else %}
+                    {{ this.label|insert_tag_raw }}
+                {% endif %}
+            </legend>
+        {% endif %}
+
+        {% if hasErrors.invoke() %}
+            <p class="kern-error">{{ getErrorAsString.invoke() }}</p>
+        {% endif %}
+
+        <div class="kern-fieldset__body">
+        {% for option in getOptions.invoke() %}
+            {% if option.type == 'group_start' %}
+                <fieldset>
+                <legend class="kern-label">{{ option.label }}</legend>
+            {% endif %}
+
+            {% if option.type == 'option' %}
+                <div class="kern-form-check">
+                    <input{{ attrs()
+                        .set('type', 'radio')
+                        .set('name', option.name)
+                        .set('id', "opt_#{option.id}")
+                        .addClass('radio')
+                        .addClass('kern-form-check__radio')
+                        .set('value', option.value)
+                        .mergeWith(option.checked)
+                        .mergeWith(option.attributes)
+                    }}>
+                    <label class="kern-label" id="lbl_{{ option.id }}" for="opt_{{ option.id }}">{{ option.label|sanitize_html('contao')|insert_tag_raw }}</label>
+                </div>
+            {% endif %}
+
+            {% if option.type == 'group_end' %}
+                </fieldset>
+            {% endif %}
+        {% endfor %}
+        </div>
+
+        {% if this.help|default %}
+            <p class="kern-hint" id="help_ctrl_{{ this.id }}">{{ this.help|insert_tag_raw }}</p>
+        {% endif %}
+
+    </fieldset>
+    {% endblock %}
+</div>

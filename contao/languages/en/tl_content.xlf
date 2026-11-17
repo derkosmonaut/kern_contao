@@ -1,0 +1,54 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_content.php" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="tl_content.kern_legend.0">
+        <source>KERN UX</source>
+        <target>KERN UX</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style.0">
+        <source>Alert style</source>
+        <target>Alert style</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style.1">
+        <source>Wraps the text element in a KERN alert of the selected variant.</source>
+        <target>Wraps the text element in a KERN alert of the selected variant.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.info">
+        <source>Information</source>
+        <target>Information</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.success">
+        <source>Success</source>
+        <target>Success</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.warning">
+        <source>Warning</source>
+        <target>Warning</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_alert_style_options.danger">
+        <source>Error</source>
+        <target>Error</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style.0">
+        <source>Button style</source>
+        <target>Button style</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style.1">
+        <source>Renders the hyperlink as a KERN button of the selected variant instead of a text link.</source>
+        <target>Renders the hyperlink as a KERN button of the selected variant instead of a text link.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style_options.primary">
+        <source>Primary</source>
+        <target>Primary</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style_options.secondary">
+        <source>Secondary</source>
+        <target>Secondary</target>
+      </trans-unit>
+      <trans-unit id="tl_content.kern_button_style_options.tertiary">
+        <source>Tertiary</source>
+        <target>Tertiary</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

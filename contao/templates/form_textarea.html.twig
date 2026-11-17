@@ -1,0 +1,45 @@
+{% set wrapperAttributes = attrs()
+    .addClass([this.prefix, 'kern-form-input', this.class|default])
+    .addClass('kern-form-input--error', hasErrors.invoke())
+    .mergeWith(wrapperAttributes|default)
+%}
+
+<div{{ wrapperAttributes }}>
+    {% block label %}
+        {% if this.label %}
+            <label class="kern-label" for="ctrl_{{ this.id }}">
+                {% if this.mandatory|default %}
+                    <span class="invisible">{{ this.mandatoryField }} </span>{{ this.label|insert_tag_raw }}<span class="mandatory">*</span>
+                {% else %}
+                    {{ this.label|insert_tag_raw }}
+                {% endif %}
+            </label>
+        {% endif %}
+    {% endblock %}
+
+    {% block field %}
+        {% if hasErrors.invoke() %}
+            <p class="kern-error">{{ getErrorAsString.invoke() }}</p>
+        {% endif %}
+
+        {% set textarea_attributes = attrs(getAttributes.invoke()) %}
+
+        <textarea{{ attrs()
+            .set('name', this.name)
+            .set('id', "ctrl_#{this.id}")
+            .addClass('textarea')
+            .addClass('kern-form-input__input')
+            .addClass('kern-form-input__input--error', hasErrors.invoke())
+            .addClass(this.class|default)
+            .set('rows', this.rows)
+            .set('cols', this.cols)
+            .set('aria-describedby', "help_ctrl_#{this.id}", this.help|default)
+            .mergeWith(textarea_attributes)
+            .setIfExists('placeholder', textarea_attributes.placeholder|default|insert_tag)
+        }}>{{ this.value }}</textarea>
+
+        {% if this.help|default %}
+            <p class="kern-hint" id="help_ctrl_{{ this.id }}">{{ this.help|insert_tag_raw }}</p>
+        {% endif %}
+    {% endblock %}
+</div>
