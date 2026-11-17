@@ -1,0 +1,18 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+
+{% block content %}
+    <dl{{ attrs(description_list_attributes|default).addClass('kern-description-list') }}>
+        {% for description in descriptions %}
+            {% block description %}
+                <div class="kern-description-list-item">
+                    {% if description.term is not empty %}
+                        <dt{{ attrs(description_term_attributes|default).addClass('kern-description-list-item__key') }}>{{ description.term|insert_tag_raw }}</dt>
+                    {% endif %}
+                    {% if description.details is not empty %}
+                        <dd{{ attrs(description_details_attributes|default).addClass('kern-description-list-item__value') }}>{{ description.details|insert_tag_raw }}</dd>
+                    {% endif %}
+                </div>
+            {% endblock %}
+        {% endfor %}
+    </dl>
+{% endblock %}

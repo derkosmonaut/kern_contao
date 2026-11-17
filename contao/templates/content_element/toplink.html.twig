@@ -1,0 +1,11 @@
+{% trans_default_domain 'contao_default' %}
+{% extends '@Contao/content_element/toplink.html.twig' %}
+
+{% block link_attributes %}
+    {{ attrs(link_attributes|default).addClass('kern-link') }}
+{% endblock %}
+
+{% block link_inner %}
+    {{- link_text|default('MSC.backToTop'|trans) -}}
+    <span class="kern-icon kern-icon--arrow-up" aria-hidden="true"></span>
+{% endblock %}
