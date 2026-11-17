@@ -24,29 +24,42 @@ Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/ke
    cd /var/www/kern.bbsmedien.de   # Pfad an die Installation anpassen
    ```
 
-2. **Bundle einbinden.** Solange das Paket nicht auf Packagist veröffentlicht ist, als `path`-Repository einrichten (mit Symlink, damit Änderungen am Klon sofort greifen):
+2. **Bundle einbinden – direkt über die `composer.json` des Projekts (empfohlen auf dem Server).** Solange das Paket noch nicht auf Packagist liegt, zusätzlich ein `vcs`-Repository auf das GitHub-Repo eintragen und eine Dev-Version verlangen:
+
+   ```json
+   {
+       "repositories": [
+           { "type": "vcs", "url": "https://github.com/derkosmonaut/kern_contao" }
+       ],
+       "require": {
+           "contao/manager-bundle": "5.7.*",
+           "derkosmonaut/kern-contao": "dev-main"
+       }
+   }
+   ```
+
+   ```bash
+   composer update derkosmonaut/kern-contao
+   ```
+
+   - Ist PR #1 noch nicht in `main` gemerged, stattdessen die Branch-Version verlangen: `"derkosmonaut/kern-contao": "dev-vibe/kern-contao-bundle-c3f5aa"`
+   - Sobald das Paket auf Packagist veröffentlicht ist, entfällt der `repositories`-Eintrag und es genügt `"derkosmonaut/kern-contao": "^1.0"` in `require`
+   - Auf dem Server braucht Composer Lesezugriff auf `github.com` (HTTPS/Git)
+
+3. **Assets und Cache werden automatisch erledigt.** Wegen `"extra": {"public-dir": "public"}` landen die Bundle-Assets unter `public/bundles/kerncontaobundle/`. Dein `post-install-cmd`/`post-update-cmd` (`@php vendor/bin/contao-setup`) führt automatisch `assets:install --symlink --relative`, `contao:symlinks` und `cache:clear` (prod + dev) aus – kein manueller Schritt nötig. Manuell nachhelfen geht mit:
+
+   ```bash
+   vendor/bin/contao-console assets:install --symlink --relative public
+   vendor/bin/contao-console cache:clear
+   ```
+
+   Hinweise: `"contao-component-dir": "assets"` betrifft nur die `contao-components/*`-Pakete, nicht die Bundle-Assets aus `public/`. Eine Anpassung von `config.allow-plugins` ist nicht nötig – das Bundle registriert kein Composer-Plugin (der Contao-Manager-Plugin wird über `extra.contao-manager-plugin` in der `composer.json` des Bundles erkannt).
+
+4. **Lokale Entwicklung** geht am komfortabelsten über ein `path`-Repository mit Symlink (Änderungen am Klon greifen sofort):
 
    ```bash
    composer config repositories.kern-contao '{"type": "path", "url": "/pfad/zum/kern_contao", "options": {"symlink": true}}'
    composer require derkosmonaut/kern-contao:*@dev
-   ```
-
-   Sobald es veröffentlicht ist, genügt:
-
-   ```bash
-   composer require derkosmonaut/kern-contao
-   ```
-
-3. **Bundle-Assets veröffentlichen** (legt `public/bundles/kerncontaobundle/` an). Geschieht automatisch über den Contao Manager („Pakete aktualisieren“); auf der Konsole:
-
-   ```bash
-   vendor/bin/contao-console assets:install --symlink --relative
-   ```
-
-4. **Cache leeren:**
-
-   ```bash
-   vendor/bin/contao-console cache:clear
    ```
 
 5. **Testen:** Eine Seite mit Inhaltselementen im Frontend aufrufen. Im Seitenquelltext muss im `<head>` stehen:
