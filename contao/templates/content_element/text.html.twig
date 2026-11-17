@@ -1,10 +1,10 @@
 {% extends '@Contao/content_element/text.html.twig' %}
 
 {% block inner %}
-    {% if kern_alert_style|default %}
-        <div class="kern-alert kern-alert--{{ kern_alert_style }}" role="alert">
+    {% if data.kern_alert_style|default %}
+        <div class="kern-alert kern-alert--{{ data.kern_alert_style }}" role="alert">
             <div class="kern-alert__header">
-                <span class="kern-icon kern-icon--{{ kern_alert_style }}" aria-hidden="true"></span>
+                <span class="kern-icon kern-icon--{{ data.kern_alert_style }}" aria-hidden="true"></span>
                 {% if headline.text|default %}
                     <span class="kern-title">{{ headline.text|insert_tag_raw }}</span>
                 {% endif %}
