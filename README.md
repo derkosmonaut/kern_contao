@@ -42,6 +42,46 @@ Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/ke
    composer update derkosmonaut/kern-contao
    ```
 
+   Komplettes Beispiel für die `composer.json` des Contao-Projekts (Managed Edition, `public-dir: public`):
+
+   ```json
+   {
+       "type": "project",
+       "require": {
+           "contao/conflicts": "@dev",
+           "contao/manager-bundle": "5.7.*",
+           "contao/calendar-bundle": "5.7.*",
+           "contao/comments-bundle": "5.7.*",
+           "contao/faq-bundle": "5.7.*",
+           "contao/listing-bundle": "5.7.*",
+           "contao/news-bundle": "5.7.*",
+           "contao/newsletter-bundle": "5.7.*",
+           "derkosmonaut/kern-contao": "dev-main"
+       },
+       "repositories": [
+           { "type": "vcs", "url": "https://github.com/derkosmonaut/kern_contao" }
+       ],
+       "extra": {
+           "public-dir": "public",
+           "contao-component-dir": "assets"
+       },
+       "config": {
+           "github-protocols": ["https"],
+           "allow-plugins": {
+               "contao-components/installer": true,
+               "contao/manager-plugin": true,
+               "php-http/discovery": true
+           }
+       },
+       "scripts": {
+           "post-install-cmd": ["@php vendor/bin/contao-setup"],
+           "post-update-cmd": ["@php vendor/bin/contao-setup"]
+       }
+   }
+   ```
+
+   Auf dem Server außerdem SSH→HTTPS für GitHub umbiegen: `git config --global url."https://github.com/".insteadOf "git@github.com:"`
+
    - Ist PR #1 noch nicht in `main` gemerged, stattdessen die Branch-Version verlangen: `"derkosmonaut/kern-contao": "dev-vibe/kern-contao-bundle-c3f5aa"`
    - Sobald das Paket auf Packagist veröffentlicht ist, entfällt der `repositories`-Eintrag und es genügt `"derkosmonaut/kern-contao": "^1.0"` in `require`
    - Auf dem Server braucht Composer Lesezugriff auf `github.com` (HTTPS/Git)
