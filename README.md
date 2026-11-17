@@ -81,6 +81,7 @@ Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/ke
 ### Variante 1 (empfohlen): Packagist + Contao Manager
 
 1. Paket auf [packagist.org/packages/submit](https://packagist.org/packages/submit) registrieren (GitHub-Login, Repo-URL `https://github.com/derkosmonaut/kern_contao` – das Repo muss public sein).
+   Damit Packagist bei jedem Push automatisch aktualisiert (sonst erscheint „This package is not auto-updated"), zusätzlich den GitHub-Hook einrichten: Repo → **Settings → Webhooks → Add webhook**, Payload URL `https://packagist.org/api/github/hook`, Content type `application/json`, Events: **„Just the push event“**, Active ☑. Zum Sofort-Test: unter „Recent Deliveries“ das letzte Event „Redeliver“ – oder einfach einen Commit pushen. Danach listet die [Paketseite](https://packagist.org/packages/derkosmonaut/kern-contao) die Version `dev-main` (sowie Branch-Versionen `dev-<branch>`).
 2. Contao Manager im Browser öffnen: `https://<domain>/contao-manager.phar.php` → „Pakete installieren“ → `derkosmonaut/kern-contao` suchen und installieren (bis zum ersten Release-Tag Version `dev-main`, danach `^1.0`).
 3. Der Manager führt `composer`, `contao-setup` (inkl. `assets:install`, `contao:symlinks`, `cache:clear`) serverseitig aus – kein SSH, kein FTP nötig. Assets liegen danach unter `public/bundles/kerncontaobundle/`.
 
