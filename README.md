@@ -116,6 +116,37 @@ Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/ke
    vendor/bin/contao-console debug:contao-twig
    ```
 
+## Installation ohne SSH (nur FTP / Web-Oberfläche)
+
+### Variante 1 (empfohlen): Packagist + Contao Manager
+
+1. Paket auf [packagist.org/packages/submit](https://packagist.org/packages/submit) registrieren (GitHub-Login, Repo-URL `https://github.com/derkosmonaut/kern_contao` – das Repo muss public sein).
+   Damit Packagist bei jedem Push automatisch aktualisiert (sonst erscheint „This package is not auto-updated"), zusätzlich den GitHub-Hook einrichten: Repo → **Settings → Webhooks → Add webhook**, Payload URL `https://packagist.org/api/github/hook`, Content type `application/json`, Events: **„Just the push event“**, Active ☑. Zum Sofort-Test: unter „Recent Deliveries“ das letzte Event „Redeliver“ – oder einfach einen Commit pushen. Danach listet die [Paketseite](https://packagist.org/packages/derkosmonaut/kern-contao) die Version `dev-main` (sowie Branch-Versionen `dev-<branch>`).
+2. Contao Manager im Browser öffnen: `https://<domain>/contao-manager.phar.php` → „Pakete installieren“ → `derkosmonaut/kern-contao` suchen und installieren (bis zum ersten Release-Tag Version `dev-main`, danach `^1.0`).
+3. Der Manager führt `composer`, `contao-setup` (inkl. `assets:install`, `contao:symlinks`, `cache:clear`) serverseitig aus – kein SSH, kein FTP nötig. Assets liegen danach unter `public/bundles/kerncontaobundle/`.
+
+### Variante 2 (sofort, manuell per FTP)
+
+1. ZIP laden und entpacken: `https://github.com/derkosmonaut/kern_contao/archive/refs/heads/main.zip`
+2. Inhalt von `kern_contao-main/` per FTP nach `vendor/derkosmonaut/kern-contao/` hochladen.
+3. `config/bundles.php` am Ende des Arrays ergänzen:
+
+   ```php
+   'Derkosmonaut\\KernContaoBundle\\KernContaoBundle' => ['all' => true],
+   ```
+
+4. Autoload ergänzen – in `vendor/composer/autoload_psr4.php` **und** in `vendor/composer/autoload_static.php` (Array `$prefixDirsPsr4`):
+
+   ```php
+   'Derkosmonaut\\KernContaoBundle\\' => array($baseDir . '/derkosmonaut/kern-contao/src'),
+   ```
+
+5. Assets per FTP kopieren: Inhalt des Bundle-Ordners `public/` hochladen nach `public/bundles/kerncontaobundle/` (also `public/kern/...` → `public/bundles/kerncontaobundle/kern/...` und `public/css/kern-contao.css` → `public/bundles/kerncontaobundle/css/kern-contao.css`). Das beseitigt die 404s auf `/bundles/kerncontaobundle/...`.
+6. Cache leeren per FTP: Inhalt von `var/cache/prod/` und `var/cache/dev/` löschen (Ordner werden beim nächsten Aufruf neu aufgebaut).
+7. Test im Browser: `https://<domain>/bundles/kerncontaobundle/kern/kern.min.css` muss HTTP 200 liefern, im Seitenquelltext die drei `<link>`-Tags vorhanden sein.
+
+Hinweis: Variante 2 ist eine manuelle Installation – sobald wieder `composer` läuft (z. B. über den Contao Manager), wird `vendor/` und `config/bundles.php` aus `installed.json` neu generiert; das Paket muss dann regulär per Composer/Packagist installiert sein (Variante 1), sonst verschwindet es beim nächsten Update.
+
 ## Troubleshooting
 
 ### `Failed to clone git@github.com:derkosmonaut/kern_contao.git ... Permission denied (publickey)`
