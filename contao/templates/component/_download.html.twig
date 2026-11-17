@@ -1,4 +1,4 @@
-{% extends '@Contao/component/_download.html.twig' %}
+{% use '@Contao/component/_download.html.twig' %}
 
 {% block download_link_attributes %}
     {{ attrs(download_link_attributes|default).addClass('kern-link') }}

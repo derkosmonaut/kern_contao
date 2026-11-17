@@ -1,4 +1,4 @@
-{% extends '@Contao/component/_read_more.html.twig' %}
+{% use '@Contao/component/_read_more.html.twig' %}
 
 {% block read_more_link_attributes %}
     {{ attrs(read_more_link_attributes|default).addClass('kern-link') }}
