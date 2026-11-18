@@ -1,0 +1,22 @@
+{% set wrapperAttributes = attrs(cssID)
+    .addClass([class, 'block'])
+    .addStyle(style|default)
+    .setIfExists('aria-label', ariaLabel)
+    .mergeWith(wrapperAttributes|default)
+%}
+
+<!-- indexer::stop -->
+<nav{{ wrapperAttributes }}>
+
+    {% if headline %}
+        <{{ hl }} class="{{ {h1: 'kern-heading-display', h2: 'kern-heading-x-large', h3: 'kern-heading-large', h4: 'kern-heading-medium', h5: 'kern-heading-small', h6: 'kern-heading-small'}[hl|default('h2')] }}">{{ headline|insert_tag_raw }}</{{ hl }}>
+    {% endif %}
+
+    <a href="{{ request }}#{{ skipId }}" class="invisible">{{ skipNavigation }}</a>
+
+    {{ items|raw }}
+
+    <span id="{{ skipId }}" class="invisible"></span>
+
+</nav>
+<!-- indexer::continue -->

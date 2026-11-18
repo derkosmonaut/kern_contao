@@ -1,0 +1,14 @@
+{% trans_default_domain 'contao_default' %}
+{% extends '@Contao/mod_breadcrumb.html.twig' %}
+
+{% block content %}
+    <ol class="kern-list kern-list--horizontal">
+        {% for item in items %}
+            {% if item.isActive %}
+                <li class="active" aria-current="page">{{ item.link|insert_tag }}</li>
+            {% else %}
+                <li><a class="kern-link" href="{{ item.href|insert_tag }}">{{ item.link|insert_tag }}</a></li>
+            {% endif %}
+        {% endfor %}
+    </ol>
+{% endblock %}

@@ -1,0 +1,22 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_article.php" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="tl_article.kern_legend">
+        <source>KERN UX</source>
+        <target>KERN UX</target>
+      </trans-unit>
+      <trans-unit id="tl_article.kern_container.0">
+        <source>Container</source>
+        <target>Container</target>
+      </trans-unit>
+      <trans-unit id="tl_article.kern_container.1">
+        <source>Chooses the maximum width of the article: "kern-container" (centered, max. 1600 px) or "kern-container-fluid" (full width).</source>
+        <target>Chooses the maximum width of the article: "kern-container" (centered, max. 1600 px) or "kern-container-fluid" (full width).</target>
+      </trans-unit>
+      <trans-unit id="tl_article.kern_container_options.fluid">
+        <source>Full width (kern-container-fluid)</source>
+        <target>Full width (kern-container-fluid)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
