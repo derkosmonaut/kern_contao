@@ -12,8 +12,8 @@
                 .set('id', "ctrl_#{this.id}")
                 .addClass('submit')
                 .addClass(this.class|default)
-                .set('title', this.slabel)
-                .set('alt', this.slabel)
+                .set('title', this.slabel|insert_tag)
+                .set('alt', this.slabel|insert_tag)
                 .mergeWith(getAttributes.invoke())
             }}>
         {% else %}
@@ -25,7 +25,7 @@
                 .addClass('kern-btn--primary')
                 .addClass(this.class|default)
                 .mergeWith(getAttributes.invoke())
-            }}><span class="kern-label">{{ this.slabel }}</span></button>
+            }}><span class="kern-label">{{ this.slabel|insert_tag_raw }}</span></button>
         {% endif %}
     {% endblock %}
 </div>

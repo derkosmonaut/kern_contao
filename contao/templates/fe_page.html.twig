@@ -1,64 +1,61 @@
 {% extends '@Contao/fe_page.html.twig' %}
 
-{% block head %}
-    {% if layout.kern_ux|default %}
-        <link rel="stylesheet" href="{{ asset('bundles/kerncontao/kern/fonts/fira-sans.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/kerncontao/kern/kern.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('bundles/kerncontao/css/kern-contao.css') }}">
-        <script src="{{ asset('bundles/kerncontao/kern/js/kern-kopfzeile.js') }}" defer></script>
-    {% endif %}
+{#
+    KERN-Seitengerüst für das klassische Seitenlayout.
+    Alles hier greift nur, wenn im Seitenlayout „KERN UX Standard verwenden“
+    (tl_layout.kern_ux) aktiviert ist – sonst bleibt das Core-Markup unverändert.
+#}
+{% set kern = layout.kern_ux|default %}
+
+{% block meta %}
     {{ parent() }}
+    {% if kern %}
+        {% include '@Contao/kern/_assets.html.twig' %}
+    {% endif %}
 {% endblock %}
 
 {% block body %}
-    {% block kern_kopfzeile %}
-        {% if layout.kern_ux|default %}
-            <div class="kern-kopfzeile">
-                <div class="kern-container">
-                    <div class="kern-kopfzeile__content">
-                        <span class="kern-kopfzeile__label">{{ mainTitle|default(title) }}</span>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-    {% endblock %}
-
+    {% if kern %}
+        {% include '@Contao/kern/_kopfzeile.html.twig' with {label: layout.kern_kopfzeile|default} only %}
+    {% endif %}
     {{ parent() }}
 {% endblock %}
 
 {% block header %}
-    {% if header %}
-        <header id="header">
-            <div class="kern-container">
-                {{ header|raw }}
-            </div>
-        </header>
+    {% if kern %}
+        {% if header %}
+            <header id="header">
+                <div class="kern-container">
+                    {{ header|raw }}
+                </div>
+            </header>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
     {% endif %}
 {% endblock %}
 
 {% block container %}
-    {% if left or right %}
-        <div class="kern-container">
+    {% if not kern %}
+        {{ parent() }}
+    {% elseif left or right %}
+        <div id="container" class="kern-container">
             <div class="kern-row">
-                {% block left %}
-                    {% if left %}
-                        <aside id="left" class="kern-col-12 kern-col-md-3">
-                            {{ left|raw }}
-                        </aside>
-                    {% endif %}
-                {% endblock %}
+                {% if left %}
+                    <aside id="left" class="kern-col-12 kern-col-md-3">
+                        {{ left|raw }}
+                    </aside>
+                {% endif %}
 
-                <div id="container" class="kern-col-12{% if left and right %} kern-col-md-6{% elseif left or right %} kern-col-md-9{% endif %}">
+                <div class="kern-col-12{% if left and right %} kern-col-md-6{% else %} kern-col-md-9{% endif %}">
                     {{ block('main') }}
                 </div>
 
-                {% block right %}
-                    {% if right %}
-                        <aside id="right" class="kern-col-12 kern-col-md-3">
-                            {{ right|raw }}
-                        </aside>
-                    {% endif %}
-                {% endblock %}
+                {% if right %}
+                    <aside id="right" class="kern-col-12 kern-col-md-3">
+                        {{ right|raw }}
+                    </aside>
+                {% endif %}
             </div>
         </div>
     {% else %}
@@ -69,18 +66,27 @@
 {% endblock %}
 
 {% block main %}
-    <main id="main">
-        {{ main|raw }}
-        {{ contao_sections('main') }}
-    </main>
+    {% if kern %}
+        {# Ohne .inside: die Artikel bringen ihren eigenen kern-container mit #}
+        <main id="main">
+            {{ main|raw }}
+            {{ contao_sections('main') }}
+        </main>
+    {% else %}
+        {{ parent() }}
+    {% endif %}
 {% endblock %}
 
 {% block footer %}
-    {% if footer %}
-        <footer id="footer">
-            <div class="kern-container">
-                {{ footer|raw }}
-            </div>
-        </footer>
+    {% if kern %}
+        {% if footer %}
+            <footer id="footer">
+                <div class="kern-container">
+                    {{ footer|raw }}
+                </div>
+            </footer>
+        {% endif %}
+    {% else %}
+        {{ parent() }}
     {% endif %}
 {% endblock %}

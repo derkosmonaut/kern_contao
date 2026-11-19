@@ -10,8 +10,16 @@
         <target>Use KERN UX standard</target>
       </trans-unit>
       <trans-unit id="tl_layout.kern_ux.1">
-        <source>Loads the KERN UX stylesheets and scripts in the frontend of pages using this layout. The back end remains unchanged.</source>
-        <target>Loads the KERN UX stylesheets and scripts in the frontend of pages using this layout. The back end remains unchanged.</target>
+        <source>Loads the KERN UX stylesheets in the front end of pages using this layout and switches the page structure (header, columns, footer) to KERN. The back end remains unchanged.</source>
+        <target>Loads the KERN UX stylesheets in the front end of pages using this layout and switches the page structure (header, columns, footer) to KERN. The back end remains unchanged.</target>
+      </trans-unit>
+      <trans-unit id="tl_layout.kern_kopfzeile.0">
+        <source>KERN header bar</source>
+        <target>KERN header bar</target>
+      </trans-unit>
+      <trans-unit id="tl_layout.kern_kopfzeile.1">
+        <source>Text of the KERN header bar with the federal flag above the page, e.g. "Offizielle Website – Bundesrepublik Deutschland". Leave empty to omit the header bar.</source>
+        <target>Text of the KERN header bar with the federal flag above the page, e.g. "Offizielle Website – Bundesrepublik Deutschland". Leave empty to omit the header bar.</target>
       </trans-unit>
     </body>
   </file>

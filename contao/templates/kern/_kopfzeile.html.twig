@@ -1,0 +1,23 @@
+{#
+    KERN-Kopfzeile (Plain-CSS-Variante, ohne Web Component).
+    Wird nur ausgegeben, wenn im Seitenlayout ein Text hinterlegt ist,
+    z. B. „Offizielle Website – Bundesrepublik Deutschland“.
+
+    @var string label
+#}
+{% if label|default %}
+    <div class="kern-kopfzeile">
+        <div class="kern-container">
+            <div class="kern-kopfzeile__content">
+                <span class="kern-kopfzeile__flagge" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 16">
+                        <path fill="#000" d="M0 .5h24v5.333H0z"/>
+                        <path fill="red" d="M0 5.833h24v5.333H0z"/>
+                        <path fill="#FACA2C" d="M0 11.167h24V16.5H0z"/>
+                    </svg>
+                </span>
+                <span class="kern-kopfzeile__label">{{ label }}</span>
+            </div>
+        </div>
+    </div>
+{% endif %}

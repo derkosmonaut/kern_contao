@@ -1,11 +1,23 @@
 {
     "name": "derkosmonaut/kern-contao",
-    "description": "KERN UX Design System (kern-ux-plain) Integration fuer Contao CMS 5: KERN-Assets und auf KERN angepasste Inhalts-Twig-Templates.",
+    "description": "KERN UX Design System (kern-ux-plain) Integration fuer Contao CMS 5: KERN-Assets, KERN-Seitengeruest und auf KERN angepasste Twig-Templates.",
     "type": "contao-bundle",
+    "keywords": ["contao", "bundle", "kern", "kern-ux", "design system", "barrierefreiheit"],
+    "homepage": "https://github.com/derkosmonaut/kern_contao",
     "license": "GPL-3.0-or-later",
+    "support": {
+        "issues": "https://github.com/derkosmonaut/kern_contao/issues",
+        "source": "https://github.com/derkosmonaut/kern_contao"
+    },
     "require": {
         "php": ">=8.2",
         "contao/core-bundle": "^5.7"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0"
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
     },
     "autoload": {
         "psr-4": {
@@ -14,12 +26,5 @@
     },
     "extra": {
         "contao-manager-plugin": "Derkosmonaut\\KernContaoBundle\\ContaoManager\\Plugin"
-    },
-    "config": {
-        "allow-plugins": {
-            "contao-components/installer": true,
-            "contao/manager-plugin": true,
-            "php-http/discovery": true
-        }
     }
 }

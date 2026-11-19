@@ -147,3 +147,10 @@
     border-bottom: var(--kern-metric-border-width-light, 1px) solid var(--kern-color-layout-border-contextual, #6e7597);
     text-align: left;
 }
+
+/* Galerie: ul.kern-row ohne Listenformatierung */
+ul.kern-row {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}

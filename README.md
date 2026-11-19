@@ -1,51 +1,101 @@
 # kern_contao
 
-***ACHTUNG! Noch nicht für den Liveeinsatz verwenden!!!***
+KERN UX Integration für Contao CMS 5.7.
 
-KERN UX Integration für Contao CMS 5.
+Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/kern-ux/kern-ux-plain) (Version 2.8.2, npm: `@kern-ux/native`) in Contao ein, stellt das Seitengerüst auf KERN um und passt die Twig-Templates der Inhaltselemente, Formulare und Navigation an das [KERN Designsystem](https://www.designsystem.gov.de/) an.
 
-Dieses Bundle bindet das [KERN Plain-CSS-HTML-Kit](https://gitlab.opencode.de/kern-ux/kern-ux-plain) (Version 2.8.2, npm: `@kern-ux/native`) in Contao ein und stellt die Inhalts-Twig-Templates von Contao auf KERN um.
+> **Status: Release Candidate.** Bitte vor dem Liveeinsatz auf einer Testinstallation prüfen und Probleme als [Issue](https://github.com/derkosmonaut/kern_contao/issues) melden.
 
 
 ## Voraussetzungen
 
 - Contao 5.7 (Managed Edition), PHP >= 8.2
-- Composer und SSH-Zugriff auf den Server (z. B. `kern.bbsmedien.de`)
+- Contao Manager **oder** Composer – SSH-Zugriff ist nicht nötig
 
 
-Meldet der Browser zusätzlich „blockiert wegen MIME-Typ-Konflikt (text/html) / X-Content-Type-Options: nosniff“, antwortet der Webserver mit einer HTML-Fehlerseite, weil die Datei fehlt – sobald die Datei existiert, wird sie als `text/css` ausgeliefert und der nosniff-Fehler verschwindet.
+## Installation
 
-**Ohne SSH:** `assets:install` legt `public/bundles/*` als Symlinks an (wird von `contao-setup` bzw. den post-install/update-Skripten mit `--symlink --relative` ausgeführt). Erlaubt der Hoster keine Symlinks (z. B. Apache `Options -FollowSymLinks`, „PHP symlink method is unavailable“), schlägt das fehl. Vorgehen dann:
+### Über den Contao Manager (empfohlen, ohne SSH)
 
-1. Per FTP prüfen: existiert `public/bundles/kerncontaobundle`? Ist es ein (ggf. defekter) Symlink? Funktionieren die Symlinks der Core-Bundles (eine Datei unter `public/bundles/contaocorebundle/...` im Browser testen)?
-2. Funktionieren Symlinks grundsätzlich, fehlt aber nur unser Eintrag: Contao Manager → Tab **Systemwartung** → **„Composer-Abhängigkeiten-Installer ausführen“** (führt die post-install-Skripte inkl. `assets:install` erneut aus) – oder das Paket im Manager erneut aktualisieren.
-3. Sind Symlinks hostseitig verboten: per FTP den defekten Symlink `public/bundles/kerncontaobundle` löschen und den Inhalt von `vendor/derkosmonaut/kern-contao/public/` als echte Dateien nach `public/bundles/kerncontaobundle/` hochladen (`kern/kern.min.css`, `kern/fonts/…`, `css/kern-contao.css`). Das muss nach jedem Bundle-Update wiederholt werden. Abhilfe schafft ggf. `Options +FollowSymLinks` in `public/.htaccess` (falls AllowOverride das erlaubt) – dann legt `contao-setup` die Symlinks künftig selbst an.
+1. Contao Manager → **Pakete** → nach `derkosmonaut/kern-contao` suchen und hinzufügen.
+   Für den Release Candidate die Version explizit angeben (z. B. `^1.2@RC`), da der Manager sonst nur stabile Versionen vorschlägt.
+2. **Änderungen anwenden**. Der Manager installiert das Paket und führt `assets:install` aus.
+3. Im Contao-Backend unter **System → Systemwartung** bzw. über das Install-Tool die **Datenbank aktualisieren** (neue Felder in `tl_layout`, `tl_article`, `tl_content`).
 
-Hinweis: Der Backend-Job „Symlinks neu erstellen“ (System → Systemwartung) legt nur files/assets/themes/system an, **nicht** `public/bundles/*` – für Bundle-Assets ist ausschließlich `assets:install` zuständig.
+### Über Composer
+
+```bash
+composer require derkosmonaut/kern-contao:^1.2@RC
+vendor/bin/contao-console contao:migrate
+```
+
+
+## Einrichtung
+
+1. **Layout → Seitenlayout** öffnen und im Bereich **KERN UX**
+   - **„KERN UX Standard verwenden“** aktivieren: lädt die KERN-Stylesheets und stellt das Seitengerüst um (siehe unten).
+   - **„KERN-Kopfzeile“** optional befüllen, z. B. `Offizielle Website – Bundesrepublik Deutschland`. Ist das Feld leer, wird keine Kopfzeile ausgegeben.
+2. Optional pro **Artikel**: **Container** auf „Volle Breite“ stellen (`kern-container-fluid` statt `kern-container`).
+3. Optional pro Inhaltselement:
+   - **Text** → **Alert-Variante** (Information, Erfolg, Warnung, Fehler) rendert den Text als `kern-alert`.
+   - **Hyperlink** → **Button-Variante** (Primär, Sekundär, Tertiär) rendert den Link als `kern-btn`.
+
+### Was die Layout-Checkbox umstellt
+
+| Layouttyp | Mit Checkbox | Ohne Checkbox |
+| --- | --- | --- |
+| Klassisch (`fe_page`) | KERN-Assets, Kopfzeile, `kern-container` in Kopf- und Fußzeile, linke/rechte Spalte als `kern-row`/`kern-col-*`, `#main` ohne `.inside` | Core-Markup unverändert |
+| Modern (`page/layout`) | KERN-Assets und Kopfzeile; die Slots gestaltet das eigene Layout-Template | Core-Markup unverändert |
+
+**Wichtig:** Die Templates für Inhaltselemente, Artikel, Formulare und Navigation (Tabelle unten) gelten **installationsweit**, unabhängig von der Checkbox. Das Bundle ist für Installationen gedacht, die vollständig auf KERN setzen.
+
 
 ## Welche Templates auf KERN umgestellt werden
 
-| Contao-Inhaltselement / Komponente | KERN-Markup |
+| Contao-Template | KERN-Markup |
 | --- | --- |
-| Überschrift (`component/_headline`) | `h1`–`h6` mit `kern-heading-display` / `kern-heading-x-large` / `kern-heading-large` / `kern-heading-medium` / `kern-heading-small` |
-| Text (Rich Text, `component/_rich_text`) | Wrapper mit `kern-content` (ergänzende Token-Styles, siehe `public/css/kern-contao.css`) |
-| Hyperlink | `kern-link` |
-| Liste | `kern-list kern-list--bullet` (ul) bzw. `kern-list--number` (ol) |
-| Tabelle | `kern-table`, `kern-table__head/__body/__footer/__row/__header/__cell`, Caption mit `kern-title` |
+| Überschrift (`component/_headline`) | `kern-heading-display` / `-x-large` / `-large` / `-medium` / `-small` |
+| Text (`component/_rich_text`) | Wrapper `kern-content` (Token-Styles in `public/css/kern-contao.css`); optional `kern-alert` |
+| Hyperlink | `kern-link` oder `kern-btn kern-btn--primary/secondary/tertiary` |
+| Liste | `kern-list kern-list--bullet` bzw. `kern-list--number` |
+| Tabelle | `kern-table` mit `__head/__body/__footer/__row/__header/__cell` |
 | Download(s) | `kern-link` mit `kern-icon--download` |
-| Akkordeon | natives `<details class="kern-accordion">` mit `<summary class="kern-accordion__header">` und `kern-accordion__body` (barrierefrei ohne JavaScript; das Handorgel-JS des Core entfällt) |
-| Description List | `kern-description-list` mit `kern-description-list-item__key/__value` |
-| Teaser | `kern-card` mit `kern-card__header/__body/__footer`, Link als `kern-btn kern-btn--secondary` |
+| Akkordeon | natives `<details class="kern-accordion">` (ohne JavaScript, Handorgel entfällt) |
+| Description List | `kern-description-list` |
+| Teaser | `kern-card`, Link als `kern-btn kern-btn--secondary` |
 | Toplink | `kern-link` mit `kern-icon--arrow-up` |
-| Galerie | KERN-Grid: `kern-row` mit `kern-col-12 kern-col-sm-6 kern-col-md-N` |
-| „Mehr lesen“-Link (`component/_read_more`) | `kern-link` mit `kern-icon--arrow-forward` |
+| Galerie | Liste im KERN-Grid (`kern-row`, `kern-col-12 kern-col-sm-6 kern-col-md-N`) |
+| „Mehr lesen“ (`component/_read_more`) | `kern-link` mit `kern-icon--arrow-forward` |
+| Artikel (`mod_article`) | innerer `kern-container` bzw. `kern-container-fluid` |
+| Navigation (`mod_navigation`, `nav_default`) | `kern-list`, `kern-link`, Überschrift mit `kern-heading-*` |
+| Breadcrumb | `ol.kern-list.kern-list--horizontal` |
+| Formulare (`form_*`) | `kern-form-input`, `kern-label`, `kern-hint`, `kern-error`, `kern-fieldset`, `kern-form-check`, `kern-btn` |
 
-Alle Overrides erweitern die Core-Templates (`{% extends '@Contao/...' %}`) und überschreiben nur einzelne Blöcke, sodass die Core-Logik (Attribute, Barrierefreiheit, Sortierung, Sanitizer) erhalten bleibt.
+Die Komponenten- und Inhaltselement-Templates erweitern die Core-Templates (`{% use %}` bzw. `{% extends '@Contao/...' %}`) und überschreiben nur einzelne Blöcke. `mod_article`, `nav_default`, `mod_navigation` und die Formular-Templates sind vollständige Kopien der Core-Templates (Contao 5.7) und müssen bei Core-Updates abgeglichen werden.
+
+Eigene Anpassungen nimmt man wie gewohnt über Templates im Ordner `templates/` der Installation vor; sie haben Vorrang vor denen des Bundles.
+
+
+## Fehlerbehebung
+
+### KERN-Stylesheets laden nicht (404 oder „MIME-Typ text/html / nosniff“)
+
+Die Assets werden unter `public/bundles/kerncontao/` erwartet (Symfony streicht das Suffix „Bundle“). Fehlt die Datei, liefert der Webserver eine HTML-Fehlerseite aus – daher der nosniff-Hinweis im Browser.
+
+1. Per FTP prüfen, ob `public/bundles/kerncontao` existiert und ob es ein (ggf. defekter) Symlink ist.
+2. Funktionieren Symlinks grundsätzlich: Contao Manager → **Systemwartung** → **„Composer-Abhängigkeiten-Installer ausführen“** (führt `assets:install` erneut aus).
+3. Verbietet der Hoster Symlinks (z. B. `Options -FollowSymLinks`): den Symlink löschen und den Inhalt von `vendor/derkosmonaut/kern-contao/public/` als echte Dateien nach `public/bundles/kerncontao/` hochladen. Das muss nach jedem Bundle-Update wiederholt werden. Ggf. hilft `Options +FollowSymLinks` in `public/.htaccess`.
+
+Hinweis: Der Backend-Job „Symlinks neu erstellen“ legt nur `files`, `assets`, `themes` und `system` an, **nicht** `public/bundles/*`.
+
+### Neue Felder fehlen im Backend
+
+Nach jeder Installation oder jedem Update die Datenbank aktualisieren (Contao Manager → Datenbank-Migration bzw. `contao:migrate`) und den Cache leeren.
 
 
 ## KERN aktualisieren
 
-Die Assets stammen aus dem Release von [kern-ux-plain](https://gitlab.opencode.de/kern-ux/kern-ux-plain) bzw. dem npm-Paket `@kern-ux/native`:
+Die Assets stammen aus dem npm-Paket `@kern-ux/native` (Release von [kern-ux-plain](https://gitlab.opencode.de/kern-ux/kern-ux-plain)):
 
 ```bash
 npm pack @kern-ux/native@<VERSION>
@@ -56,7 +106,8 @@ cp package/dist/fonts/fira-sans/*.woff2 public/kern/fonts/fira-sans/
 cp package/LICENSE.md public/kern/LICENSE.md
 ```
 
-Danach `vendor/bin/contao-console cache:clear` ausführen. KERN-Klassenreferenz: [KERN UX Cheatsheet](https://digitalservicebund.github.io/kern-ux-cheatsheet/) und [kern-ux.de](https://www.kern-ux.de/komponenten/).
+Danach die Version in dieser README und im `CHANGELOG.md` anpassen. KERN-Klassenreferenz: [KERN UX Cheatsheet](https://digitalservicebund.github.io/kern-ux-cheatsheet/) und [kern-ux.de](https://www.kern-ux.de/komponenten/).
+
 
 ## Lizenz
 
