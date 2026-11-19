@@ -9,3 +9,78 @@
     {% endif %}
     {{ parent() }}
 {% endblock %}
+
+{% block body %}
+    {% block kern_kopfzeile %}
+        {% if layout.kern_ux|default %}
+            <div class="kern-kopfzeile">
+                <div class="kern-container">
+                    <div class="kern-kopfzeile__content">
+                        <span class="kern-kopfzeile__label">{{ mainTitle|default(title) }}</span>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endblock %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block header %}
+    {% if header %}
+        <header id="header">
+            <div class="kern-container">
+                {{ header|raw }}
+            </div>
+        </header>
+    {% endif %}
+{% endblock %}
+
+{% block container %}
+    {% if left or right %}
+        <div class="kern-container">
+            <div class="kern-row">
+                {% block left %}
+                    {% if left %}
+                        <aside id="left" class="kern-col-12 kern-col-md-3">
+                            {{ left|raw }}
+                        </aside>
+                    {% endif %}
+                {% endblock %}
+
+                <div id="container" class="kern-col-12{% if left and right %} kern-col-md-6{% elseif left or right %} kern-col-md-9{% endif %}">
+                    {{ block('main') }}
+                </div>
+
+                {% block right %}
+                    {% if right %}
+                        <aside id="right" class="kern-col-12 kern-col-md-3">
+                            {{ right|raw }}
+                        </aside>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    {% else %}
+        <div id="container">
+            {{ block('main') }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block main %}
+    <main id="main">
+        {{ main|raw }}
+        {{ contao_sections('main') }}
+    </main>
+{% endblock %}
+
+{% block footer %}
+    {% if footer %}
+        <footer id="footer">
+            <div class="kern-container">
+                {{ footer|raw }}
+            </div>
+        </footer>
+    {% endif %}
+{% endblock %}
