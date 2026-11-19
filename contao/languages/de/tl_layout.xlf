@@ -13,14 +13,6 @@
         <source>Loads the KERN UX stylesheets in the front end of pages using this layout and switches the page structure (header, columns, footer) to KERN. The back end remains unchanged.</source>
         <target>Lädt die KERN-UX-Stylesheets im Frontend der Seiten mit diesem Layout und stellt das Seitengerüst (Kopf, Spalten, Fuß) auf KERN um. Das Backend bleibt unverändert.</target>
       </trans-unit>
-      <trans-unit id="tl_layout.kern_kopfzeile.0">
-        <source>KERN header bar</source>
-        <target>KERN-Kopfzeile</target>
-      </trans-unit>
-      <trans-unit id="tl_layout.kern_kopfzeile.1">
-        <source>Text of the KERN header bar with the federal flag above the page, e.g. "Offizielle Website – Bundesrepublik Deutschland". Leave empty to omit the header bar.</source>
-        <target>Text der KERN-Kopfzeile mit Bundesflagge über der Seite, z. B. „Offizielle Website – Bundesrepublik Deutschland“. Leer lassen, um keine Kopfzeile auszugeben.</target>
-      </trans-unit>
     </body>
   </file>
 </xliff>

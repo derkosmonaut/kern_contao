@@ -32,9 +32,7 @@ vendor/bin/contao-console contao:migrate
 
 ## Einrichtung
 
-1. **Layout → Seitenlayout** öffnen und im Bereich **KERN UX**
-   - **„KERN UX Standard verwenden“** aktivieren: lädt die KERN-Stylesheets und stellt das Seitengerüst um (siehe unten).
-   - **„KERN-Kopfzeile“** optional befüllen, z. B. `Offizielle Website – Bundesrepublik Deutschland`. Ist das Feld leer, wird keine Kopfzeile ausgegeben.
+1. **Layout → Seitenlayout** öffnen und im Bereich **KERN UX** **„KERN UX Standard verwenden“** aktivieren: lädt die KERN-Stylesheets und das Navigations-Script und stellt das Seitengerüst um (siehe unten).
 2. Optional pro **Artikel**: **Container** auf „Volle Breite“ stellen (`kern-container-fluid` statt `kern-container`).
 3. Optional pro Inhaltselement:
    - **Text** → **Alert-Variante** (Information, Erfolg, Warnung, Fehler) rendert den Text als `kern-alert`.
@@ -44,10 +42,32 @@ vendor/bin/contao-console contao:migrate
 
 | Layouttyp | Mit Checkbox | Ohne Checkbox |
 | --- | --- | --- |
-| Klassisch (`fe_page`) | KERN-Assets, Kopfzeile, `kern-container` in Kopf- und Fußzeile, linke/rechte Spalte als `kern-row`/`kern-col-*`, `#main` ohne `.inside` | Core-Markup unverändert |
-| Modern (`page/layout`) | KERN-Assets und Kopfzeile; die Slots gestaltet das eigene Layout-Template | Core-Markup unverändert |
+| Klassisch (`fe_page`) | KERN-Assets, `kern-container` in Kopf- und Fußzeile, linke/rechte Spalte als `kern-row`/`kern-col-*`, `#main` ohne `.inside` | Core-Markup unverändert |
+| Modern (`page/layout`) | KERN-Assets; die Slots gestaltet das eigene Layout-Template | Core-Markup unverändert |
 
 **Wichtig:** Die Templates für Inhaltselemente, Artikel, Formulare und Navigation (Tabelle unten) gelten **installationsweit**, unabhängig von der Checkbox. Das Bundle ist für Installationen gedacht, die vollständig auf KERN setzen.
+
+
+## Navigation
+
+Das Modul **Navigationsmenü** (bzw. jedes Modul, das `mod_navigation`/`nav_default` nutzt) wird als barrierefreie Navigation nach dem [WAI-ARIA-Muster „Disclosure Navigation“](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/examples/disclosure-navigation/) ausgegeben. Das Designsystem hat dafür noch keine eigene Komponente; Optik und Abstände kommen aus den KERN-Tokens (`public/css/kern-contao.css`).
+
+- **Ohne JavaScript** ist die Navigation eine vollständig ausgeklappte, verschachtelte Liste – alles bleibt erreichbar.
+- **Mit JavaScript** (`public/js/kern-nav.js`, wird über die Layout-Checkbox geladen):
+  - unter 992 px ein **Menü-Button** (`aria-expanded`, `aria-controls`), der die Navigation ein- und ausblendet; der Pfad zur aktuellen Seite ist beim Öffnen aufgeklappt,
+  - ab 992 px eine horizontale Navigation mit **Dropdowns**,
+  - Unterebenen über eigene **Buttons neben dem Link** – der Link selbst führt weiterhin zur Seite,
+  - **Escape** schließt die offene Ebene und setzt den Fokus auf ihren Button zurück; Klick außerhalb oder Fokus außerhalb schließt Dropdowns.
+- Kein `role="menu"`/`aria-haspopup`: Links bleiben Links, Screenreader lesen eine normale Liste vor.
+- Der Skip-Link „Navigation überspringen“ wird bei Tastaturfokus sichtbar. Die Contao-Klasse `.invisible` ist als Screenreader-Klasse definiert (KERN bringt sie nicht mit).
+- Der Breakpoint lässt sich über die CSS-Variable `--kern-nav-breakpoint` am `nav` ändern, z. B. `.kern-nav { --kern-nav-breakpoint: 1200px; }`.
+
+Die Sitemap nutzt ebenfalls `nav_default`; sie wird ohne Buttons und vollständig ausgeklappt dargestellt.
+
+
+## Hinweis zur Kopfzeile (Digitale Dachmarke)
+
+Die KERN-Komponente **Kopfzeile** (Bundesflagge mit „Offizielle Website …“) ist Teil der [Digitalen Dachmarke](https://dachmarke.gov.de) und ausschließlich Angeboten von Bund, Ländern und Kommunen nach Beantragung vorbehalten. Sie steht nicht unter der Open-Source-Lizenz und wird von diesem Bundle deshalb **nicht** ausgegeben. Berechtigte Stellen können sie nach Freigabe in einem eigenen `fe_page`- bzw. Layout-Template ergänzen.
 
 
 ## Welche Templates auf KERN umgestellt werden
@@ -67,11 +87,11 @@ vendor/bin/contao-console contao:migrate
 | Galerie | Liste im KERN-Grid (`kern-row`, `kern-col-12 kern-col-sm-6 kern-col-md-N`) |
 | „Mehr lesen“ (`component/_read_more`) | `kern-link` mit `kern-icon--arrow-forward` |
 | Artikel (`mod_article`) | innerer `kern-container` bzw. `kern-container-fluid` |
-| Navigation (`mod_navigation`, `nav_default`) | `kern-list`, `kern-link`, Überschrift mit `kern-heading-*` |
+| Navigation (`mod_navigation`, `nav_default`) | barrierefreie Disclosure-Navigation mit Menü-Button (siehe unten) |
 | Breadcrumb | `ol.kern-list.kern-list--horizontal` |
 | Formulare (`form_*`) | `kern-form-input`, `kern-label`, `kern-hint`, `kern-error`, `kern-fieldset`, `kern-form-check`, `kern-btn` |
 
-Die Komponenten- und Inhaltselement-Templates erweitern die Core-Templates (`{% use %}` bzw. `{% extends '@Contao/...' %}`) und überschreiben nur einzelne Blöcke. `mod_article`, `nav_default`, `mod_navigation` und die Formular-Templates sind vollständige Kopien der Core-Templates (Contao 5.7) und müssen bei Core-Updates abgeglichen werden.
+Die Komponenten- und Inhaltselement-Templates erweitern die Core-Templates (`{% use %}` bzw. `{% extends '@Contao/...' %}`) und überschreiben nur einzelne Blöcke. `mod_article` und die Formular-Templates sind vollständige Kopien der Core-Templates (Contao 5.7) und müssen bei Core-Updates abgeglichen werden.
 
 Eigene Anpassungen nimmt man wie gewohnt über Templates im Ordner `templates/` der Installation vor; sie haben Vorrang vor denen des Bundles.
 

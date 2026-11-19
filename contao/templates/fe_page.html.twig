@@ -14,13 +14,6 @@
     {% endif %}
 {% endblock %}
 
-{% block body %}
-    {% if kern %}
-        {% include '@Contao/kern/_kopfzeile.html.twig' with {label: layout.kern_kopfzeile|default} only %}
-    {% endif %}
-    {{ parent() }}
-{% endblock %}
-
 {% block header %}
     {% if kern %}
         {% if header %}

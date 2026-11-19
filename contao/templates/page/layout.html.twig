@@ -2,7 +2,7 @@
 
 {#
     KERN für das moderne Seitenlayout (Layouttyp „modern“).
-    Lädt die KERN-Assets und gibt die Kopfzeile aus, wenn im Seitenlayout
+    Lädt die KERN-Assets, wenn im Seitenlayout
     „KERN UX Standard verwenden“ (tl_layout.kern_ux) aktiviert ist. Die Slots
     selbst bleiben unverändert und können im eigenen Layout-Template gestaltet werden.
 #}
@@ -11,11 +11,4 @@
     {% if layout.kern_ux|default %}
         {% include '@Contao/kern/_assets.html.twig' %}
     {% endif %}
-{% endblock %}
-
-{% block body_content %}
-    {% if layout.kern_ux|default %}
-        {% include '@Contao/kern/_kopfzeile.html.twig' with {label: layout.kern_kopfzeile|default} only %}
-    {% endif %}
-    {{ parent() }}
 {% endblock %}
