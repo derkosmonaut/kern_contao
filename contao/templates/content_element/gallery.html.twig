@@ -5,16 +5,17 @@
     .addClass("content-#{type}--cols-#{items_per_row|default(4)}")
 %}
 
-{% set column_class = 'kern-col-md-' ~ ((12 / (items_per_row|default(4)))|round) %}
+{% set column_class = 'kern-col-md-' ~ (12 / max(1, items_per_row|default(4)))|round %}
 
 {% block content %}
-    <div class="kern-row">
+    {# Liste wie im Core (ul/li), Spalten über das KERN-Grid #}
+    <ul class="kern-row" role="list">
         {% for image in images %}
             {% block gallery_item %}
-                <div class="kern-col-12 kern-col-sm-6 {{ column_class }}">
+                <li class="kern-col-12 kern-col-sm-6 {{ column_class }}">
                     {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
-                </div>
+                </li>
             {% endblock %}
         {% endfor %}
-    </div>
+    </ul>
 {% endblock %}

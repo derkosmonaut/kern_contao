@@ -147,3 +147,219 @@
     border-bottom: var(--kern-metric-border-width-light, 1px) solid var(--kern-color-layout-border-contextual, #6e7597);
     text-align: left;
 }
+
+/* Galerie: ul.kern-row ohne Listenformatierung */
+ul.kern-row {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+/* ------------------------------------------------------------------
+ * Contao-Hilfsklasse .invisible (nur für Screenreader)
+ * KERN bringt sie nicht mit; Contao nutzt sie u. a. für Skip-Links.
+ * ------------------------------------------------------------------ */
+.invisible {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ------------------------------------------------------------------
+ * KERN-Navigation (mod_navigation + nav_default, Script: js/kern-nav.js)
+ * Ohne JavaScript: einfache, vollständig ausgeklappte Liste.
+ * ------------------------------------------------------------------ */
+.kern-nav {
+    --kern-nav-breakpoint: 992px;
+    position: relative;
+}
+
+/* Skip-Link bei Tastaturfokus sichtbar (WCAG 2.4.1 / 2.4.7) */
+.kern-nav__skip:focus,
+.kern-nav__skip:focus-visible {
+    position: absolute !important;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: var(--kern-metric-space-small, 8px) var(--kern-metric-space-default, 16px) !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    background: var(--kern-color-layout-background-default, #fff);
+    color: var(--kern-color-action-default-contextual, #2044aa);
+    outline: 3px solid var(--kern-color-action-focus-default, #ffca50);
+}
+
+.kern-nav__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.kern-nav__list .kern-nav__list {
+    padding-left: var(--kern-metric-space-default, 16px);
+}
+
+.kern-nav__item {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.kern-nav__link {
+    display: inline-block;
+    padding: var(--kern-metric-space-small, 8px) 0;
+    font-size: var(--kern-typography-font-size-medium-static, 18px);
+    line-height: var(--kern-typography-line-height-medium-static, 24px);
+}
+
+.kern-nav__link--active {
+    color: var(--kern-color-layout-text-default-contextual, #131525);
+    font-weight: var(--kern-typography-font-weight-body-strong, 600);
+}
+
+.kern-nav .trail > .kern-nav__link {
+    font-weight: var(--kern-typography-font-weight-body-strong, 600);
+}
+
+/* Buttons erst mit JavaScript (hidden wird entfernt) */
+.kern-nav__subtoggle[hidden],
+.kern-nav__toggle[hidden] {
+    display: none !important;
+}
+
+.kern-nav__subtoggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--kern-metric-border-radius-default, 4px);
+    background: transparent;
+    color: var(--kern-color-action-default-contextual, #2044aa);
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.kern-nav__subtoggle:hover {
+    background: var(--kern-color-action-state-indicator-tint-hover-opacity, rgba(32, 68, 170, .08));
+}
+
+.kern-nav__subtoggle:focus-visible,
+.kern-nav__toggle:focus-visible {
+    outline: 3px solid var(--kern-color-action-focus-default, #ffca50);
+    outline-offset: 2px;
+}
+
+.kern-nav__subtoggle .kern-icon,
+.kern-nav__toggle .kern-icon {
+    margin: 0;
+    background-color: currentColor;
+}
+
+.kern-nav__subtoggle .kern-icon {
+    transition: transform .15s ease-in-out;
+    transform: rotate(90deg);
+}
+
+.kern-nav__subtoggle[aria-expanded="true"] .kern-icon {
+    transform: rotate(-90deg);
+}
+
+/* Mit JavaScript: zugeklappte Ebenen ausblenden */
+.kern-nav--js .kern-nav__subtoggle[aria-expanded="false"] + .kern-nav__submenu {
+    display: none;
+}
+
+/* Menü-Button: Icon je nach Zustand */
+.kern-nav__toggle .kern-nav__icon-close,
+.kern-nav__toggle[aria-expanded="true"] .kern-nav__icon-open {
+    display: none;
+}
+
+.kern-nav__toggle[aria-expanded="true"] .kern-nav__icon-close {
+    display: inline-block;
+}
+
+/* ---------- Mobil ---------- */
+.kern-nav--mobile:not(.kern-nav--open) .kern-nav__menu {
+    display: none;
+}
+
+.kern-nav--mobile .kern-nav__menu {
+    margin-top: var(--kern-metric-space-small, 8px);
+    border-top: var(--kern-metric-border-width-light, 1px) solid var(--kern-color-layout-border-contextual, #6e7597);
+}
+
+.kern-nav--mobile .kern-nav__item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: var(--kern-metric-border-width-light, 1px) solid var(--kern-color-layout-border-contextual, #6e7597);
+}
+
+.kern-nav--mobile .kern-nav__item .kern-nav__item:last-child {
+    border-bottom: 0;
+}
+
+.kern-nav--mobile .kern-nav__submenu {
+    flex-basis: 100%;
+}
+
+/* ---------- Desktop ---------- */
+.kern-nav--desktop .kern-nav__toggle {
+    display: none !important;
+}
+
+.kern-nav--desktop .kern-nav__menu > .kern-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--kern-metric-space-large, 24px);
+    padding-left: 0;
+}
+
+.kern-nav--desktop .kern-nav__menu > .kern-nav__list > .kern-nav__item {
+    display: flex;
+    align-items: center;
+}
+
+.kern-nav--desktop .kern-nav__menu > .kern-nav__list > .kern-nav__item > .kern-nav__submenu {
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    min-width: 16rem;
+    padding: var(--kern-metric-space-small, 8px) var(--kern-metric-space-default, 16px);
+    border: var(--kern-metric-border-width-light, 1px) solid var(--kern-color-layout-border-contextual, #6e7597);
+    border-radius: var(--kern-metric-border-radius-default, 4px);
+    background: var(--kern-color-layout-background-default, #fff);
+    box-shadow: var(--kern-shadow-elevation-default, 0 4px 12px rgba(19, 21, 37, .15));
+}
+
+.kern-nav--desktop .kern-nav__submenu > .kern-nav__list {
+    padding-left: 0;
+}
+
+.kern-nav--desktop .kern-nav__submenu .kern-nav__list .kern-nav__list {
+    padding-left: var(--kern-metric-space-default, 16px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .kern-nav__subtoggle .kern-icon {
+        transition: none;
+    }
+}

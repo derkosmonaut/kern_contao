@@ -1,26 +1,45 @@
-<ul class="kern-list {{ level }}">
+{% trans_default_domain 'contao_default' %}
+
+{#
+    Navigationsebene für kern-nav (siehe mod_navigation.html.twig).
+    Seiten mit Unterseiten erhalten neben dem Link einen Button, der die
+    Unterebene auf- und zuklappt. Der Button ist ohne JavaScript ausgeblendet
+    (hidden), die Unterebene dann sichtbar.
+#}
+
+<ul class="kern-nav__list {{ level }}">
     {% for item in items %}
-        {% if item.isActive %}
-            <li class="{{ item.class }}"><strong{{ attrs()
-                    .addClass(item.class)
+        {% set has_subitems = item.subitems|default is not empty %}
+        {% set submenu_id = 'kern-nav-sub-' ~ item.id|default(loop.index) ~ '-' ~ random() %}
+
+        <li{{ attrs()
+            .addClass(['kern-nav__item', item.class])
+            .addClass('kern-nav__item--has-submenu', has_subitems)
+        }}>
+            {% if item.isActive %}
+                <strong{{ attrs()
+                    .addClass(['kern-nav__link', 'kern-nav__link--active', item.class])
                     .set('aria-current', 'page')
-                    .set('aria-haspopup', true, item.subitems|default)
                 }}>{{ item.link }}</strong>
-                {{- item.subitems|default|raw -}}
-            </li>
-        {% else %}
-            <li{{ attrs().addClass(item.class) }}>
+            {% else %}
                 <a{{ attrs()
                     .set('href', item.href)
-                    .addClass('kern-link')
-                    .addClass(item.class)
+                    .addClass(['kern-link', 'kern-nav__link', item.class])
                     .setIfExists('accesskey', item.accesskey|default)
-                    .set('aria-haspopup', true, item.subitems|default)
                     .mergeWith(item.target|default)
                     .mergeWith(item.rel|default)
                 }}>{{ item.link }}</a>
-                {{- item.subitems|default|raw -}}
-            </li>
-        {% endif %}
+            {% endif %}
+
+            {% if has_subitems %}
+                <button type="button" class="kern-nav__subtoggle" aria-expanded="false" aria-controls="{{ submenu_id }}" hidden>
+                    <span class="kern-icon kern-icon--chevron-right" aria-hidden="true"></span>
+                    <span class="kern-sr-only">{{ 'MSC.kern_nav_submenu'|trans([item.link|striptags]) }}</span>
+                </button>
+                <div class="kern-nav__submenu" id="{{ submenu_id }}">
+                    {{- item.subitems|raw -}}
+                </div>
+            {% endif %}
+        </li>
     {% endfor %}
 </ul>

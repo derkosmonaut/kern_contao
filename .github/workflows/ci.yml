@@ -3,6 +3,7 @@ name: CI
 on:
   push:
     branches: [main]
+    tags: ['*']
   pull_request:
 
 jobs:
@@ -18,18 +19,49 @@ jobs:
 
   php-lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.2', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - run: find src contao tests -name '*.php' -print0 | xargs -0 -n1 php -l
+
+  twig-lint:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           coverage: none
-      - run: find src -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Twig installieren (isoliert, ohne Contao)
+        run: |
+          mkdir -p /tmp/twig-lint
+          cd /tmp/twig-lint
+          composer require --no-interaction --no-progress twig/twig:^3.21
+      - run: php tests/lint-twig.php /tmp/twig-lint/vendor/autoload.php
 
-  templates:
+  files:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: test -f contao/templates/.twig-root
-      - run: ls contao/templates/component/_*.twig contao/templates/content_element/*.twig
-      - run: test -f public/kern/kern.min.css && test -f public/kern/fonts/fira-sans.css
+      - name: Pflichtdateien
+        run: |
+          test -f contao/templates/.twig-root
+          test -f public/kern/kern.min.css
+          test -f public/kern/fonts/fira-sans.css
+          test -f public/css/kern-contao.css
+      - name: Asset-Pfade in Templates existieren
+        run: |
+          grep -rhoE "bundles/kerncontao/[^')\"]+" contao/templates | sort -u | while read -r p; do
+            f="public/${p#bundles/kerncontao/}"
+            test -f "$f" || { echo "Fehlt: $f"; exit 1; }
+          done
+      - name: XLIFF wohlgeformt
+        run: |
+          sudo apt-get install -y -qq libxml2-utils >/dev/null
+          xmllint --noout contao/languages/*/*.xlf

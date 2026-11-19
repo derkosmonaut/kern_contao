@@ -29,6 +29,7 @@
             .set('name', this.name)
             .set('id', "ctrl_#{this.id}")
             .addClass('text')
+            .addClass('password', this.hideInput|default)
             .addClass('kern-form-input__input')
             .addClass('kern-form-input__input--error', hasErrors.invoke())
             .addClass(this.class|default)

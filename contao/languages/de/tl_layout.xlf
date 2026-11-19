@@ -10,8 +10,8 @@
         <target>KERN UX Standard verwenden</target>
       </trans-unit>
       <trans-unit id="tl_layout.kern_ux.1">
-        <source>Loads the KERN UX stylesheets and scripts in the frontend of pages using this layout. The back end remains unchanged.</source>
-        <target>Lädt die KERN-UX-Stylesheets und -Skripte im Frontend der Seiten mit diesem Layout. Das Backend bleibt unverändert.</target>
+        <source>Loads the KERN UX stylesheets in the front end of pages using this layout and switches the page structure (header, columns, footer) to KERN. The back end remains unchanged.</source>
+        <target>Lädt die KERN-UX-Stylesheets im Frontend der Seiten mit diesem Layout und stellt das Seitengerüst (Kopf, Spalten, Fuß) auf KERN um. Das Backend bleibt unverändert.</target>
       </trans-unit>
     </body>
   </file>

@@ -24,6 +24,7 @@
             {% set table_header_cell_attributes = attrs(default_header_cell_attributes|default)
                 .set('data-sort-method', 'none', sorting and loop.first and use_row_headers)
                 .set('data-sort-default', '', sorting.column|default == loop.index0)
+                .set('scope', 'col')
                 .addClass('kern-table__header')
             %}
             <th{{ table_header_cell_attributes }}>

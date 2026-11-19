@@ -1,7 +1,21 @@
+{% trans_default_domain 'contao_default' %}
+
+{#
+    Barrierefreie KERN-Navigation (Disclosure-Navigation nach WAI-ARIA APG).
+
+    - Ohne JavaScript ist die Navigation vollständig ausgeklappt und bedienbar.
+    - Mit JavaScript (kern-nav.js) gibt es auf kleinen Bildschirmen einen
+      Menü-Button und für Unterseiten Auf-/Zuklapp-Buttons mit aria-expanded.
+    - Kein role="menu": Navigationslinks bleiben normale Links in Listen.
+#}
+
+{% set nav_id = 'kern-nav-' ~ skipId %}
+
 {% set wrapperAttributes = attrs(cssID)
-    .addClass([class, 'block'])
+    .addClass([class, 'block', 'kern-nav'])
     .addStyle(style|default)
-    .setIfExists('aria-label', ariaLabel)
+    .setIfExists('aria-label', ariaLabel|insert_tag)
+    .set('data-kern-nav', '')
     .mergeWith(wrapperAttributes|default)
 %}
 
@@ -12,9 +26,22 @@
         <{{ hl }} class="{{ {h1: 'kern-heading-display', h2: 'kern-heading-x-large', h3: 'kern-heading-large', h4: 'kern-heading-medium', h5: 'kern-heading-small', h6: 'kern-heading-small'}[hl|default('h2')] }}">{{ headline|insert_tag_raw }}</{{ hl }}>
     {% endif %}
 
-    <a href="{{ request }}#{{ skipId }}" class="invisible">{{ skipNavigation }}</a>
+    {% block skip_link %}
+        <a href="{{ request }}#{{ skipId }}" class="invisible kern-nav__skip">{{ skipNavigation }}</a>
+    {% endblock %}
 
-    {{ items|raw }}
+    {% block toggle %}
+        {# Wird per JavaScript eingeblendet (hidden entfernt) und nur auf kleinen Bildschirmen angezeigt #}
+        <button type="button" class="kern-btn kern-btn--secondary kern-nav__toggle" aria-expanded="false" aria-controls="{{ nav_id }}" hidden>
+            <span class="kern-icon kern-icon--dehaze kern-nav__icon-open" aria-hidden="true"></span>
+            <span class="kern-icon kern-icon--close kern-nav__icon-close" aria-hidden="true"></span>
+            <span class="kern-label">{{ 'MSC.kern_nav_toggle'|trans }}</span>
+        </button>
+    {% endblock %}
+
+    <div class="kern-nav__menu" id="{{ nav_id }}">
+        {{ items|raw }}
+    </div>
 
     <span id="{{ skipId }}" class="invisible"></span>
 

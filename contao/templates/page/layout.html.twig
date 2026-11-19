@@ -1,0 +1,14 @@
+{% extends '@Contao/page/layout.html.twig' %}
+
+{#
+    KERN für das moderne Seitenlayout (Layouttyp „modern“).
+    Lädt die KERN-Assets, wenn im Seitenlayout
+    „KERN UX Standard verwenden“ (tl_layout.kern_ux) aktiviert ist. Die Slots
+    selbst bleiben unverändert und können im eigenen Layout-Template gestaltet werden.
+#}
+{% block viewport %}
+    {{ parent() }}
+    {% if layout.kern_ux|default %}
+        {% include '@Contao/kern/_assets.html.twig' %}
+    {% endif %}
+{% endblock %}
