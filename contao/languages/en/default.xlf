@@ -13,6 +13,54 @@
         <source>Skip to content</source>
         <target>Skip to content</target>
       </trans-unit>
+      <trans-unit id="MSC.kern_display_toggle">
+        <source>Display</source>
+        <target>Display</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_font">
+        <source>Font</source>
+        <target>Font</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_font_default">
+        <source>Default (Fira Sans)</source>
+        <target>Default (Fira Sans)</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_font_atkinson">
+        <source>Highly legible (Atkinson Hyperlegible)</source>
+        <target>Highly legible (Atkinson Hyperlegible)</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_theme">
+        <source>Colour scheme</source>
+        <target>Colour scheme</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_theme_system">
+        <source>Like my device</source>
+        <target>Like my device</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_theme_light">
+        <source>Light</source>
+        <target>Light</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_theme_dark">
+        <source>Dark</source>
+        <target>Dark</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_spacing">
+        <source>Text spacing</source>
+        <target>Text spacing</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_spacing_default">
+        <source>Normal</source>
+        <target>Normal</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_spacing_wide">
+        <source>Increased</source>
+        <target>Increased</target>
+      </trans-unit>
+      <trans-unit id="MSC.kern_display_reset">
+        <source>Reset to default</source>
+        <target>Reset to default</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -1,0 +1,14 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Derkosmonaut\KernContaoBundle\:
+        resource: ../src/
+        exclude:
+            - ../src/ContaoManager/
+            - ../src/KernContaoBundle.php
+
+    # Backend-Aktion „KERN-Grundeinrichtung“ (BE_MOD-Key-Callback)
+    Derkosmonaut\KernContaoBundle\Setup\KernSetupModule:
+        public: true
