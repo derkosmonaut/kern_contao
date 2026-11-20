@@ -498,6 +498,25 @@ html[data-kern-spacing="wide"] body :where(p, ul, ol, dl, blockquote) {
     margin-left: auto;
 }
 
+@media (max-width: 767px) {
+    #header > .kern-container {
+        gap: var(--kern-metric-space-small, 8px) var(--kern-metric-space-default, 16px);
+    }
+
+    #header .kern-site-name {
+        flex-basis: 100%;
+    }
+
+    #header .module-kern-service-links {
+        flex-basis: 100%;
+        margin-left: 0;
+    }
+
+    #header .kern-service-links {
+        gap: 0 var(--kern-metric-space-default, 16px);
+    }
+}
+
 #footer {
     margin-top: var(--kern-metric-space-xx-large, 48px);
     padding-block: var(--kern-metric-space-x-large, 32px);
