@@ -1,0 +1,51 @@
+name: KERN-Update
+
+# Prüft wöchentlich, ob es eine neue Version von @kern-ux/native gibt,
+# übernimmt sie mit scripts/update-kern.sh und öffnet einen Pull Request.
+# Voraussetzung: Settings → Actions → General →
+# „Allow GitHub Actions to create and approve pull requests“ ist aktiviert.
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'   # montags 05:17 UTC
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version von @kern-ux/native (leer = neueste)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: KERN übernehmen
+        id: kern
+        run: |
+          scripts/update-kern.sh ${{ inputs.version || 'latest' }}
+          echo "version=$(cat public/kern/VERSION)" >> "$GITHUB_OUTPUT"
+
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: kern-update/${{ steps.kern.outputs.version }}
+          delete-branch: true
+          commit-message: 'KERN ${{ steps.kern.outputs.version }} übernehmen'
+          title: 'KERN ${{ steps.kern.outputs.version }} übernehmen'
+          body: |
+            Automatisch erzeugt von `scripts/update-kern.sh`.
+
+            - `public/kern/kern.min.css` und `LICENSE.md` unverändert aus `@kern-ux/native@${{ steps.kern.outputs.version }}`
+            - Fira Sans: nur die genutzten Schnitte (400–700, normal/kursiv)
+
+            Vor dem Merge kurz prüfen: [Changelog von kern-ux-plain](https://gitlab.opencode.de/kern-ux/kern-ux-plain/-/releases), neue oder umbenannte Klassen in den Templates. Danach `CHANGELOG.md` ergänzen und taggen.
+          labels: kern-update
