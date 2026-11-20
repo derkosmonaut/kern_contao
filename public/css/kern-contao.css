@@ -488,8 +488,14 @@ html[data-kern-spacing="wide"] body :where(p, ul, ol, dl, blockquote) {
     text-decoration: none;
 }
 
-#header .kern-nav {
+#header .kern-nav,
+#header .mod_breadcrumb {
     flex-basis: 100%;
+}
+
+/* Servicelinks und „Darstellung“ rechts neben dem Seitennamen */
+#header .module-kern-service-links {
+    margin-left: auto;
 }
 
 #footer {
