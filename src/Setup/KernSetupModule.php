@@ -258,16 +258,16 @@ final class KernSetupModule
         }
 
         // Footer-Navigation, Servicelinks und Suche mit den neuen Seiten verknüpfen
-        $this->connection->update('tl_module', ['pages' => serialize(array_map('intval', [
+        $this->update('tl_module', ['pages' => serialize(array_map('intval', [
             $ids['kontakt'], $ids['impressum'], $ids['datenschutz'], $ids['barrierefreiheit'], $ids['suche'],
-        ]))], ['id' => $footerNavId]);
+        ]))], $footerNavId);
 
-        $this->connection->update('tl_module', [
+        $this->update('tl_module', [
             'kern_easy_language' => $ids['leichte_sprache'],
             'kern_sign_language' => $ids['gebaerdensprache'],
-        ], ['id' => $serviceId]);
+        ], $serviceId);
 
-        $this->connection->update('tl_module', ['jumpTo' => $ids['suche']], ['id' => $searchId]);
+        $this->update('tl_module', ['jumpTo' => $ids['suche']], $searchId);
     }
 
     private function createFeedbackForm(string $email): int
@@ -300,12 +300,26 @@ final class KernSetupModule
         return $formId;
     }
 
+    /**
+     * Spaltennamen werden quotiert, weil Contao-Felder wie „rows“ in
+     * MySQL/MariaDB reservierte Wörter sind.
+     */
     private function insert(string $table, array $row): int
     {
         $row['tstamp'] ??= time();
-        $this->connection->insert($table, $row);
+        $this->connection->insert($this->connection->quoteIdentifier($table), $this->quoteKeys($row));
 
         return (int) $this->connection->lastInsertId();
+    }
+
+    private function update(string $table, array $data, int $id): void
+    {
+        $this->connection->update($this->connection->quoteIdentifier($table), $this->quoteKeys($data), ['id' => $id]);
+    }
+
+    private function quoteKeys(array $row): array
+    {
+        return array_combine(array_map($this->connection->quoteIdentifier(...), array_keys($row)), $row);
     }
 
     private function themeExists(): bool

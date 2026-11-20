@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Bundle. Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [1.3.0-RC2]
+
+### Behoben
+- Grundeinrichtung brach unter MySQL/MariaDB mit einem SQL-Syntaxfehler ab, weil die Spalte `rows` (tl_layout) ein reserviertes Wort ist. Alle Tabellen- und Spaltennamen werden jetzt quotiert.
+
 ## [1.3.0-RC1]
 
 ### Hinzugefügt
