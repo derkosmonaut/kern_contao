@@ -180,7 +180,9 @@ ul.kern-row {
     position: relative;
 }
 
-/* Skip-Link bei Tastaturfokus sichtbar (WCAG 2.4.1 / 2.4.7) */
+/* Skip-Links bei Tastaturfokus sichtbar (WCAG 2.4.1 / 2.4.7) */
+.kern-skip-link:focus,
+.kern-skip-link:focus-visible,
 .kern-nav__skip:focus,
 .kern-nav__skip:focus-visible {
     position: absolute !important;
@@ -362,4 +364,9 @@ ul.kern-row {
     .kern-nav__subtoggle .kern-icon {
         transition: none;
     }
+}
+
+/* Sprungziel Hauptinhalt: kein Fokusrahmen um den ganzen Bereich */
+#main:focus {
+    outline: none;
 }

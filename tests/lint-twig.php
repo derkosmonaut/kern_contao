@@ -48,6 +48,40 @@ $twig->addTokenParser(new class extends AbstractTokenParser {
     }
 });
 
+// Contao-Block-Tags {% slot %}…{% endslot %} und {% defer %}…{% enddefer %}
+foreach (['slot' => true, 'defer' => false] as $tag => $hasName) {
+    $twig->addTokenParser(new class($tag, $hasName) extends AbstractTokenParser {
+        public function __construct(private readonly string $tag, private readonly bool $hasName)
+        {
+        }
+
+        public function parse(Token $token): Node
+        {
+            $stream = $this->parser->getStream();
+
+            if ($this->hasName) {
+                $stream->expect(Token::NAME_TYPE);
+            }
+
+            $stream->expect(Token::BLOCK_END_TYPE);
+            $end = 'end'.$this->tag;
+
+            do {
+                $this->parser->subparse(static fn (Token $t) => $t->test(['else', $end]));
+                $next = $stream->next()->getValue();
+                $stream->expect(Token::BLOCK_END_TYPE);
+            } while ($next === 'else');
+
+            return new Node([], [], $token->getLine());
+        }
+
+        public function getTag(): string
+        {
+            return $this->tag;
+        }
+    });
+}
+
 $errors = 0;
 $count = 0;
 
