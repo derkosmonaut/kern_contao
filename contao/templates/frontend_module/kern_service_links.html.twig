@@ -1,0 +1,23 @@
+{% extends '@Contao/frontend_module/_base.html.twig' %}
+
+{#
+    Links zu Leichter Sprache und Gebärdensprache.
+    @var array links  [{href, title, icon, active}]
+#}
+
+{% block content %}
+    <ul class="kern-service-links">
+        {% for link in links %}
+            <li class="kern-service-links__item">
+                <a{{ attrs()
+                    .set('href', link.href)
+                    .addClass('kern-link kern-service-links__link')
+                    .set('aria-current', 'page', link.active)
+                }}>
+                    <span class="kern-icon kern-icon--{{ link.icon }}" aria-hidden="true"></span>
+                    {{ link.title }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

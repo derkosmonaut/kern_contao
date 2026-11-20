@@ -14,6 +14,13 @@
     {% endif %}
 {% endblock %}
 
+{% block body %}
+    {% if kern %}
+        {% include '@Contao/kern/_skip_link.html.twig' %}
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
 {% block header %}
     {% if kern %}
         {% if header %}
@@ -61,7 +68,7 @@
 {% block main %}
     {% if kern %}
         {# Ohne .inside: die Artikel bringen ihren eigenen kern-container mit #}
-        <main id="main">
+        <main id="main" tabindex="-1">
             {{ main|raw }}
             {{ contao_sections('main') }}
         </main>

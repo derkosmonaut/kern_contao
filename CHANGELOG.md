@@ -2,6 +2,23 @@
 
 Alle nennenswerten Änderungen an diesem Bundle. Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [1.3.0-RC1]
+
+### Hinzugefügt
+- Backend-Button **„KERN-Grundeinrichtung“** (Layout → Themes): Theme, Seitenlayout, Module und – auf leeren Installationen – Seitenbaum mit Startseite, Kontakt, Leichte Sprache, Gebärdensprache, Impressum, Datenschutz, Erklärung zur Barrierefreiheit, Suche und 404-Seite; Formular „Barriere melden“.
+- Frontend-Modul **„Darstellung anpassen“**: Schrift (Fira Sans / Atkinson Hyperlegible Next), Farbschema (Gerät/hell/dunkel), Textabstände; Speicherung nur im Browser.
+- Frontend-Modul **„Leichte Sprache / Gebärdensprache“** mit KERN-Icons.
+- Sprunglink „Zum Inhalt springen“ in beiden Layouttypen.
+- Modernes Layout: Slots `header`/`main`/`footer` mit KERN-Containern.
+- Styles für Kopf- und Fußbereich, Druckansicht.
+- `scripts/update-kern.sh` und wöchentliche GitHub Action „KERN-Update“, die bei neuen KERN-Versionen einen Pull Request öffnet; `public/kern/VERSION`.
+- Schrift Atkinson Hyperlegible Next (SIL OFL 1.1) als Variable Font.
+
+### Geändert
+- Fira Sans nur noch in den genutzten Schnitten (400–700, normal/kursiv) mit `font-display: swap`: 4,3 MB → 1,1 MB.
+- `body` ohne Standardrand; `color-scheme` passend zum Farbschema.
+- Twig-Lint kennt Contaos `slot`- und `defer`-Tags.
+
 ## [1.2.0-RC1]
 
 ### Hinzugefügt

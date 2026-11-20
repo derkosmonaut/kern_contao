@@ -1,0 +1,22 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_module.php" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="tl_module.kern_easy_language.0">
+        <source>Easy language</source>
+        <target>Easy language</target>
+      </trans-unit>
+      <trans-unit id="tl_module.kern_easy_language.1">
+        <source>Page with information in easy language.</source>
+        <target>Page with information in easy language.</target>
+      </trans-unit>
+      <trans-unit id="tl_module.kern_sign_language.0">
+        <source>Sign language</source>
+        <target>Sign language</target>
+      </trans-unit>
+      <trans-unit id="tl_module.kern_sign_language.1">
+        <source>Page with information in sign language.</source>
+        <target>Page with information in sign language.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

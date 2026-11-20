@@ -1,0 +1,62 @@
+<?xml version="1.0" ?><xliff version="1.1">
+  <file datatype="php" original="contao/languages/en/tl_theme.php" source-language="en" target-language="en">
+    <body>
+      <trans-unit id="tl_theme.kern_setup.0">
+        <source>KERN basic setup</source>
+        <target>KERN basic setup</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup.1">
+        <source>Create theme, page layout, modules and page tree for KERN UX</source>
+        <target>Create theme, page layout, modules and page tree for KERN UX</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_intro">
+        <source>Creates the theme “KERN UX” with page layout and modules. Existing content is not changed.</source>
+        <target>Creates the theme “KERN UX” with page layout and modules. Existing content is not changed.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_site_name">
+        <source>Website name</source>
+        <target>Website name</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_email">
+        <source>E-mail address for barrier reports</source>
+        <target>E-mail address for barrier reports</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_email_help">
+        <source>Recipient of the form “Barriere melden”. Can be changed later in the form.</source>
+        <target>Recipient of the form “Barriere melden”. Can be changed later in the form.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_pages">
+        <source>Create page tree with required pages and placeholder texts</source>
+        <target>Create page tree with required pages and placeholder texts</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_has_roots">
+        <source>There are already website roots. The page tree is therefore not created, only theme, page layout and modules.</source>
+        <target>There are already website roots. The page tree is therefore not created, only theme, page layout and modules.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_submit">
+        <source>Create basic setup</source>
+        <target>Create basic setup</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_admin">
+        <source>Only administrators can run the basic setup.</source>
+        <target>Only administrators can run the basic setup.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_exists">
+        <source>The theme “KERN UX” already exists.</source>
+        <target>The theme “KERN UX” already exists.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_email_invalid">
+        <source>Please enter a valid e-mail address.</source>
+        <target>Please enter a valid e-mail address.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_done">
+        <source>Theme, page layout and modules have been created.</source>
+        <target>Theme, page layout and modules have been created.</target>
+      </trans-unit>
+      <trans-unit id="tl_theme.kern_setup_done_pages">
+        <source>Basic setup created. Please check and replace all texts in [square brackets].</source>
+        <target>Basic setup created. Please check and replace all texts in [square brackets].</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

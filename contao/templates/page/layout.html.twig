@@ -2,13 +2,38 @@
 
 {#
     KERN für das moderne Seitenlayout (Layouttyp „modern“).
-    Lädt die KERN-Assets, wenn im Seitenlayout
-    „KERN UX Standard verwenden“ (tl_layout.kern_ux) aktiviert ist. Die Slots
-    selbst bleiben unverändert und können im eigenen Layout-Template gestaltet werden.
+    Greift nur, wenn im Seitenlayout „KERN UX Standard verwenden“
+    (tl_layout.kern_ux) aktiviert ist – sonst bleibt das Core-Markup unverändert.
 #}
+{% set kern = layout.kern_ux|default %}
+
 {% block viewport %}
     {{ parent() }}
-    {% if layout.kern_ux|default %}
+    {% if kern %}
         {% include '@Contao/kern/_assets.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block body_content %}
+    {% if kern %}
+        {% include '@Contao/kern/_skip_link.html.twig' %}
+
+        {% slot header %}
+            <header id="header">
+                <div class="kern-container">{{ slot() }}</div>
+            </header>
+        {% endslot %}
+
+        {% slot main %}
+            <main id="main" tabindex="-1">{{ slot() }}</main>
+        {% endslot %}
+
+        {% slot footer %}
+            <footer id="footer">
+                <div class="kern-container">{{ slot() }}</div>
+            </footer>
+        {% endslot %}
+    {% else %}
+        {{ parent() }}
     {% endif %}
 {% endblock %}

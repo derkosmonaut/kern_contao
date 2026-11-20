@@ -1,0 +1,71 @@
+{% extends '@Contao/frontend_module/_base.html.twig' %}
+{% trans_default_domain 'contao_default' %}
+
+{#
+    „Darstellung anpassen“ (Script: public/js/kern-display.js).
+    Ohne JavaScript bleibt das Modul ausgeblendet (hidden), weil die
+    Einstellungen nur mit JavaScript gespeichert und angewendet werden können.
+
+    @var string panel_id
+#}
+
+{% set attributes = attrs(attributes|default)
+    .addClass('kern-display')
+    .set('data-kern-display', '')
+    .set('hidden', true)
+%}
+
+{% set options = {
+    font: {
+        legend: 'MSC.kern_display_font'|trans,
+        choices: {
+            default: 'MSC.kern_display_font_default'|trans,
+            atkinson: 'MSC.kern_display_font_atkinson'|trans,
+        },
+    },
+    theme: {
+        legend: 'MSC.kern_display_theme'|trans,
+        choices: {
+            system: 'MSC.kern_display_theme_system'|trans,
+            light: 'MSC.kern_display_theme_light'|trans,
+            dark: 'MSC.kern_display_theme_dark'|trans,
+        },
+    },
+    spacing: {
+        legend: 'MSC.kern_display_spacing'|trans,
+        choices: {
+            default: 'MSC.kern_display_spacing_default'|trans,
+            wide: 'MSC.kern_display_spacing_wide'|trans,
+        },
+    },
+} %}
+
+{% block content %}
+    <button type="button" class="kern-btn kern-btn--tertiary kern-display__toggle" aria-expanded="false" aria-controls="{{ panel_id }}">
+        <span class="kern-icon kern-icon--visibility" aria-hidden="true"></span>
+        <span class="kern-label">{{ 'MSC.kern_display_toggle'|trans }}</span>
+    </button>
+
+    <div class="kern-display__panel" id="{{ panel_id }}" hidden>
+        {% for key, option in options %}
+            <fieldset class="kern-fieldset kern-display__group">
+                <legend class="kern-label">{{ option.legend }}</legend>
+                <div class="kern-fieldset__body">
+                    {% for value, label in option.choices %}
+                        {% set id = panel_id ~ '-' ~ key ~ '-' ~ value %}
+                        <div class="kern-form-check">
+                            <input class="kern-form-check__radio" type="radio" id="{{ id }}" name="{{ panel_id }}-{{ key }}" value="{{ value }}" data-kern-display-setting="{{ key }}"{% if loop.first %} checked{% endif %}>
+                            <label class="kern-label" for="{{ id }}">{{ label }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+            </fieldset>
+        {% endfor %}
+
+        <button type="button" class="kern-btn kern-btn--secondary kern-display__reset" data-kern-display-reset>
+            <span class="kern-label">{{ 'MSC.kern_display_reset'|trans }}</span>
+        </button>
+
+        <p class="kern-display__status kern-sr-only" role="status" aria-live="polite"></p>
+    </div>
+{% endblock %}
