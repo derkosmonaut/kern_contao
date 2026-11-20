@@ -1,0 +1,56 @@
+{% extends '@Contao/block_unsearchable.html.twig' %}
+
+{#
+    KERN-Suchformular. Das Feld heißt wie im Core „keywords“, damit die
+    Contao-Suche es auswertet. Das Label ist sichtbar (KERN-Vorgabe).
+#}
+
+{% block content %}
+
+    <search class="kern-form-input kern-search">
+        <form{% if action|default %} action="{{ action }}"{% endif %} method="get">
+            <label class="kern-label" for="ctrl_keywords_{{ uniqueId }}">{{ keywordLabel }}</label>
+            <div class="kern-input-group">
+                <input class="kern-form-input__input" type="search" name="keywords" id="ctrl_keywords_{{ uniqueId }}" value="{{ keyword }}" spellcheck="false" autocomplete="off">
+                <button type="submit" id="ctrl_submit_{{ uniqueId }}" class="kern-btn kern-btn--primary">
+                    <span class="kern-icon kern-icon--search" aria-hidden="true"></span>
+                    <span class="kern-label">{{ search }}</span>
+                </button>
+            </div>
+
+            {% if advanced %}
+                <fieldset class="kern-fieldset kern-search__options">
+                    <legend class="kern-label">{{ optionsLabel }}</legend>
+                    <div class="kern-fieldset__body kern-fieldset__body--horizontal">
+                        <div class="kern-form-check">
+                            <input class="kern-form-check__radio" type="radio" name="query_type" id="matchAll_{{ uniqueId }}" value="and"{% if 'and' == queryType %} checked{% endif %}>
+                            <label class="kern-label" for="matchAll_{{ uniqueId }}">{{ matchAll }}</label>
+                        </div>
+                        <div class="kern-form-check">
+                            <input class="kern-form-check__radio" type="radio" name="query_type" id="matchAny_{{ uniqueId }}" value="or"{% if 'or' == queryType %} checked{% endif %}>
+                            <label class="kern-label" for="matchAny_{{ uniqueId }}">{{ matchAny }}</label>
+                        </div>
+                    </div>
+                </fieldset>
+            {% endif %}
+        </form>
+    </search>
+
+    {% if header|default %}
+        <div class="kern-search__summary">
+            <p class="kern-body kern-search__header">{{ header|raw }}</p>
+            {% if keywordHint|default %}
+                <p class="kern-hint">{{ keywordHint }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    {% if results|default %}
+        <div class="kern-search__results">
+            {{ results|raw }}
+        </div>
+    {% endif %}
+
+    {{ pagination|raw }}
+
+{% endblock %}

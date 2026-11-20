@@ -125,6 +125,7 @@ Die KERN-Komponente **Kopfzeile** (Bundesflagge mit „Offizielle Website …“
 | Artikel (`mod_article`) | innerer `kern-container` bzw. `kern-container-fluid` |
 | Navigation (`mod_navigation`, `nav_default`) | barrierefreie Disclosure-Navigation mit Menü-Button (siehe unten) |
 | Breadcrumb | `ol.kern-list.kern-list--horizontal` |
+| Suche (`mod_search`, `search_default`) | `<search>`-Landmarke mit sichtbarem Label, `kern-input-group`, `kern-btn` mit Such-Icon, Optionen als `kern-form-check`; Treffer mit hervorgehobenen Suchbegriffen |
 | Formulare (`form_*`) | `kern-form-input`, `kern-label`, `kern-hint`, `kern-error`, `kern-fieldset`, `kern-form-check`, `kern-btn` |
 
 Die Komponenten- und Inhaltselement-Templates erweitern die Core-Templates (`{% use %}` bzw. `{% extends '@Contao/...' %}`) und überschreiben nur einzelne Blöcke. `mod_article` und die Formular-Templates sind vollständige Kopien der Core-Templates (Contao 5.7) und müssen bei Core-Updates abgeglichen werden.

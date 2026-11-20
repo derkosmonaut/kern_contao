@@ -1,0 +1,16 @@
+{# Ein Suchtreffer (KERN) #}
+<article class="search_default kern-search__result">
+
+    {% if hasImage %}
+        {{ include('@Contao/image.html.twig', image|map(v => v), false) }}
+    {% endif %}
+
+    <h3 class="kern-heading-small kern-search__title"><a class="kern-link" href="{{ href }}">{{ link }}</a></h3>
+
+    {% if context|default %}
+        <p class="kern-body kern-search__context">{{ context|raw }}</p>
+    {% endif %}
+
+    <p class="kern-body kern-body--small kern-body--muted kern-search__url">{{ url }}</p>
+
+</article>
