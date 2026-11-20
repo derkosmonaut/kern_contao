@@ -2,6 +2,11 @@
 
 Alle nennenswerten Änderungen an diesem Bundle. Das Format orientiert sich an [Keep a Changelog](https://keepachangelog.com/de/1.1.0/), die Versionierung an [Semantic Versioning](https://semver.org/lang/de/).
 
+## [1.3.0-RC3]
+
+### Hinzugefügt
+- Suchformular und Trefferliste im KERN-Design: `<search>`-Landmarke, sichtbares Label, `kern-input-group` mit Such-Button, Optionen als Radiobuttons, Suchbegriffe in den Treffern hervorgehoben.
+
 ## [1.3.0-RC2]
 
 ### Behoben
